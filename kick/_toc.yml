@@ -1,0 +1,9 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: docs/about
+- file: docs/data_preprocessing.ipynb
+- file: docs/eda/univariate_analysis.ipynb
