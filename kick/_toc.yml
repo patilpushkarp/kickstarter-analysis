@@ -6,6 +6,7 @@ root: intro
 chapters:
 - file: docs/about
 - file: docs/data_preprocessing.ipynb
+- file: docs/test.ipynb
 - file: docs/eda/eda.md
   sections:
   - file: docs/eda/univariate_analysis.ipynb
