@@ -4,8 +4,12 @@
 format: jb-book
 root: intro
 chapters:
+- file: toc.md
 - file: docs/about
 - file: docs/eda/eda.md
   sections:
   - file: docs/eda/univariate_analysis.ipynb
   - file: docs/eda/multivariate_analysis.ipynb
+- file: docs/models/models.md
+  sections:
+  - file: docs/models/log_reg_untreated.ipynb

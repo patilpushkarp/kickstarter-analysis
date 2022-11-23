@@ -3,6 +3,8 @@
 
 title: Kickstarter Analysis
 author: Pushkar Patil
+exclude_patterns: [_build, .DS_Store, "**.ipynb_checkpoints"]
+only_build_toc_files: true
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
