@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Kickstarter Analysis &#8212; Kickstarter Analysis</title>
+    <title>Crowdfunding Analysis using Kickstarter &#8212; Kickstarter Analysis</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="About" href="docs/about.html" />
+    <link rel="next" title="Table of Contents" href="toc.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -104,11 +104,16 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Kickstarter Analysis
+                    Crowdfunding Analysis using Kickstarter
                 </a>
             </li>
         </ul>
         <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="toc.html">
+   Table of Contents
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="docs/about.html">
    About
@@ -132,6 +137,23 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="docs/eda/multivariate_analysis.html">
      Multivariate Analysis
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="docs/models/models.html">
+   Models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="docs/models/log_reg_untreated.html">
+     Logistic Regression - Simple Data
     </a>
    </li>
   </ul>
@@ -318,11 +340,6 @@ title="Print to PDF"
    Introduction
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#table-of-contents">
-   Table of Contents
-  </a>
- </li>
 </ul>
 
     </nav>
@@ -332,7 +349,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Kickstarter Analysis</h1>
+                <h1>Crowdfunding Analysis using Kickstarter</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -347,11 +364,6 @@ title="Print to PDF"
    Introduction
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#table-of-contents">
-   Table of Contents
-  </a>
- </li>
 </ul>
 
                         </nav>
@@ -362,21 +374,20 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="kickstarter-analysis">
-<h1>Kickstarter Analysis<a class="headerlink" href="#kickstarter-analysis" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="crowdfunding-analysis-using-kickstarter">
+<h1>Crowdfunding Analysis using Kickstarter<a class="headerlink" href="#crowdfunding-analysis-using-kickstarter" title="Permalink to this headline">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
-<p>This project was created to analyze the projects on Kickstarter.</p>
+<p>Every project needs funding to reach a mass audience. There are various sources of funding for a project. One of them is crowdfunding. Crowdfunding allows the creator of the project to raise money from a large number of people through the internet. It can be considered a form of crowdsourcing that enables raising money outside of traditional financial systems such as banks <span id="id1">[]</span>. There were 6,455,080 campaigns crowdfunded in the year 2019 and it is projected that the number can grow to more than 12 million by 2023. It is projected that the crowdfunding market is expected to grow to USD 300 Billion by 2030 <span id="id2">[]</span>. The three actors of the modern crowdfunding model are as follows <span id="id3">[]</span>:</p>
+<ol class="simple">
+<li><p>Project Initiator - This person or a group of people initiates the project by proposing the idea to be funded</p></li>
+<li><p>Supporters - People who support the idea financially</p></li>
+<li><p>Moderator - This is the organization or platform that brings the concerned parties together to launch the idea. A few of the most famous ones include Kickstarter, Indiegogo, Crowd Supply etc.</p></li>
+</ol>
+<p>The platform seeks to generate income for worthwhile projects by helping them connect to generous funders <span id="id4">[]</span>. Various attributes are responsible for the success or failure of crowdfunding for the project. Although the platforms publish many advice and best-practices articles on their blog but still more than half of the projects that are launched fail. This project is aimed at studying the effects of various attributes that affect the outcome of the project using the data from the Kickstarter website. On a high level, the following steps will be performed in the project. The data will be sourced from the Kaggle website. It will be checked for any discrepancies and if found any will be rectified. Then, exploratory data analysis will be performed to seek necessary insights from the data. Finally, two machine learning models - logistic regression and support vector machine - along with one neural network will be developed to find predict the success of the project before launching it.</p>
 </section>
-<section id="table-of-contents">
-<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">#</a></h2>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="docs/about.html">About</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/eda/eda.html">Exploratory Data Analysis</a></li>
-</ul>
 </div>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -406,10 +417,10 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="docs/about.html" title="next page">
+    <a class='right-next' id="next-link" href="toc.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">About</p>
+        <p class="prev-next-title">Table of Contents</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

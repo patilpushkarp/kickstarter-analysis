@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Exploratory Data Analysis" href="eda/eda.html" />
-    <link rel="prev" title="Kickstarter Analysis" href="../intro.html" />
+    <link rel="prev" title="Table of Contents" href="../toc.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -105,11 +105,16 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Kickstarter Analysis
+                    Crowdfunding Analysis using Kickstarter
                 </a>
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../toc.html">
+   Table of Contents
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    About
@@ -133,6 +138,23 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="eda/multivariate_analysis.html">
      Multivariate Analysis
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="models/models.html">
+   Models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="models/log_reg_untreated.html">
+     Logistic Regression - Simple Data
     </a>
    </li>
   </ul>
@@ -325,6 +347,16 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction">
+     Introduction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#research-ideas">
+     Research Ideas
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#data-dictionary">
      Data Dictionary
     </a>
@@ -361,6 +393,16 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction">
+     Introduction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#research-ideas">
+     Research Ideas
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#data-dictionary">
      Data Dictionary
     </a>
@@ -381,14 +423,26 @@ title="Print to PDF"
 <h1>About<a class="headerlink" href="#about" title="Permalink to this headline">#</a></h1>
 <section id="about-the-company-kickstarter">
 <h2>About the company - Kickstarter<a class="headerlink" href="#about-the-company-kickstarter" title="Permalink to this headline">#</a></h2>
-<p>Kickstarter is an American public benefit corporation based in Brooklyn, New York, that maintains a global crowdfunding platform focused on creativity. Kickstarter exists to help bring creative projects to life. It was launched on April 28, 2009, by Perry Chen, Yancey Strickler, and Charles Adler. Creators categorize their projects into one of 13 categories and 36 subcategories. They are Art, Comics, Dance, Design, Fashion, Film and Video, Food, Games, Music, Photography, Publishing, Technology and Theater.</p>
+<p>Kickstarter is an American public benefit corporation based in Brooklyn, New York, that maintains a global crowdfunding platform focused on creativity. Kickstarter exists to help bring creative projects to life. It was launched on April 28, 2009, by Perry Chen, Yancey Strickler, and Charles Adler. Creators categorize their projects into one of 13 categories and 36 subcategories. They are Art, Comics, Dance, Design, Fashion, Film and Video, Food, Games, Music, Photography, Publishing, Technology and Theater <span id="id1">[]</span>.</p>
 </section>
+<hr class="docutils" />
 <section id="about-the-data">
 <h2>About the data<a class="headerlink" href="#about-the-data" title="Permalink to this headline">#</a></h2>
-<p>The data has been sourced from <a class="reference external" href="https://www.kaggle.com/datasets/thedevastator/most-kickstarter-campaigns-fail-here-s-why?select=kickstarter_data_with_features.csv">kaggle</a>, which is licensed under Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). It contains data on 20,632 projects as of February 1st, 2017.</p>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h3>
+<p>The data has been sourced from <a class="reference external" href="https://www.kaggle.com/datasets/thedevastator/most-kickstarter-campaigns-fail-here-s-why?select=kickstarter_data_with_features.csv">Kaggle</a>, which is licensed under Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). It contains data on 20,632 projects as of February 1st, 2017.
+By analyzing the data for different categories of projects, Kickstarter could see which categories are the most popular and adjust their website and/or marketing strategy to target those categories. Additionally, by using the data on successful campaigns, Kickstarter could attempt to replicate those campaigns that are most successful. Furthermore, Kickstarter could use this data to better understand why some campaigns are unsuccessful and provide advice or resources for future campaign creators to increase their chances of success.</p>
+</section>
+<section id="research-ideas">
+<h3>Research Ideas<a class="headerlink" href="#research-ideas" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Data can be used to analyze failed projects to understand the reasons for project failures and then plan accordingly to improve the chance of success.</p></li>
+<li><p>This data can also be used to prioritize categories and then adjust the website.</p></li>
+</ul>
+</section>
 <section id="data-dictionary">
 <h3>Data Dictionary<a class="headerlink" href="#data-dictionary" title="Permalink to this headline">#</a></h3>
-<p>There are 61 columns present in the dataset:</p>
+<p>There are 61 columns present in the dataset, which are as follows:</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p>Feature</p></th>
@@ -435,11 +489,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../toc.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Kickstarter Analysis</p>
+            <p class="prev-next-title">Table of Contents</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="eda/eda.html" title="next page">
