@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Table of Contents" href="toc.html" />
+    <link rel="next" title="About" href="docs/about.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -110,11 +110,6 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="toc.html">
-   Table of Contents
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="docs/about.html">
    About
   </a>
@@ -154,6 +149,23 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="docs/models/log_reg_untreated.html">
      Logistic Regression - Simple Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="extras.html">
+   Extras
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="references.html">
+     References
     </a>
    </li>
   </ul>
@@ -340,6 +352,11 @@ title="Print to PDF"
    Introduction
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-of-contents">
+   Table of Contents
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -364,6 +381,11 @@ title="Print to PDF"
    Introduction
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-of-contents">
+   Table of Contents
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -378,16 +400,29 @@ title="Print to PDF"
 <h1>Crowdfunding Analysis using Kickstarter<a class="headerlink" href="#crowdfunding-analysis-using-kickstarter" title="Permalink to this headline">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
-<p>Every project needs funding to reach a mass audience. There are various sources of funding for a project. One of them is crowdfunding. Crowdfunding allows the creator of the project to raise money from a large number of people through the internet. It can be considered a form of crowdsourcing that enables raising money outside of traditional financial systems such as banks <span id="id1">[]</span>. There were 6,455,080 campaigns crowdfunded in the year 2019 and it is projected that the number can grow to more than 12 million by 2023. It is projected that the crowdfunding market is expected to grow to USD 300 Billion by 2030 <span id="id2">[]</span>. The three actors of the modern crowdfunding model are as follows <span id="id3">[]</span>:</p>
+<p>Every project needs funding to reach a mass audience. There are various sources of funding for a project. One of them is crowdfunding. Crowdfunding allows the creator of the project to raise money from a large number of people through the internet. It can be considered a form of crowdsourcing that enables raising money outside of traditional financial systems such as banks <span id="id1">[<a class="reference internal" href="references.html#id3" title="Crowdfunding. Nov 2022. URL: https://en.wikipedia.org/wiki/Crowdfunding.">wik22</a>]</span>. There were 6,455,080 campaigns crowdfunded in the year 2019 and it is projected that the number can grow to more than 12 million by 2023. It is projected that the crowdfunding market is expected to grow to USD 300 Billion by 2030 <span id="id2">[<a class="reference internal" href="references.html#id2" title="Maddie Shepherd. Crowdfunding statistics (2021): market size and growth. Dec 2020. URL: https://www.fundera.com/resources/crowdfunding-statistics.">She20</a>]</span>. The three actors of the modern crowdfunding model are as follows <span id="id3">[<a class="reference internal" href="references.html#id3" title="Crowdfunding. Nov 2022. URL: https://en.wikipedia.org/wiki/Crowdfunding.">wik22</a>]</span>:</p>
 <ol class="simple">
 <li><p>Project Initiator - This person or a group of people initiates the project by proposing the idea to be funded</p></li>
 <li><p>Supporters - People who support the idea financially</p></li>
 <li><p>Moderator - This is the organization or platform that brings the concerned parties together to launch the idea. A few of the most famous ones include Kickstarter, Indiegogo, Crowd Supply etc.</p></li>
 </ol>
-<p>The platform seeks to generate income for worthwhile projects by helping them connect to generous funders <span id="id4">[]</span>. Various attributes are responsible for the success or failure of crowdfunding for the project. Although the platforms publish many advice and best-practices articles on their blog but still more than half of the projects that are launched fail. This project is aimed at studying the effects of various attributes that affect the outcome of the project using the data from the Kickstarter website. On a high level, the following steps will be performed in the project. The data will be sourced from the Kaggle website. It will be checked for any discrepancies and if found any will be rectified. Then, exploratory data analysis will be performed to seek necessary insights from the data. Finally, two machine learning models - logistic regression and support vector machine - along with one neural network will be developed to find predict the success of the project before launching it.</p>
+<p>The platform seeks to generate income for worthwhile projects by helping them connect to generous funders <span id="id4">[<a class="reference internal" href="references.html#id3" title="Crowdfunding. Nov 2022. URL: https://en.wikipedia.org/wiki/Crowdfunding.">wik22</a>]</span>. Various attributes are responsible for the success or failure of crowdfunding for the project. Although the platforms publish many advice and best-practices articles on their blog but still more than half of the projects that are launched fail. This project is aimed at studying the effects of various attributes that affect the outcome of the project using the data from the Kickstarter website. On a high level, the following steps will be performed in the project. The data will be sourced from the Kaggle website. It will be checked for any discrepancies and if found any will be rectified. Then, exploratory data analysis will be performed to seek necessary insights from the data. Finally, two machine learning models - logistic regression and support vector machine - along with one neural network will be developed to find predict the success of the project before launching it.</p>
 </section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">#</a></h2>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/eda/eda.html">Exploratory Data Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/eda/univariate_analysis.html">Univariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/eda/multivariate_analysis.html">Multivariate Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/models/models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extras.html">Extras</a></li>
+</ul>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -417,10 +452,10 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="toc.html" title="next page">
+    <a class='right-next' id="next-link" href="docs/about.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Table of Contents</p>
+        <p class="prev-next-title">About</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
