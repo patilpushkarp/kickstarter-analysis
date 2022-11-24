@@ -4,7 +4,6 @@
 format: jb-book
 root: intro
 chapters:
-- file: toc.md
 - file: docs/about
 - file: docs/eda/eda.md
   sections:
@@ -13,3 +12,6 @@ chapters:
 - file: docs/models/models.md
   sections:
   - file: docs/models/log_reg_untreated.ipynb
+- file: extras.md
+  sections:
+  - file: references.md
