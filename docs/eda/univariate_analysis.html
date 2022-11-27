@@ -137,6 +137,21 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../models/preprocessing.html">
+   Data Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../models/feature_engineering.html">
+   Feature Engineering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../models/data_augmentation.html">
+   Data Augmentation
+  </a>
+ </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../models/models.html">
    Models
@@ -148,8 +163,8 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../models/log_reg_untreated.html">
-     Logistic Regression - Simple Data
+    <a class="reference internal" href="../models/logistic_regression.html">
+     Logistic Regression
     </a>
    </li>
   </ul>
@@ -378,6 +393,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#understanding-variables">
+   Understanding Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#numerical-variables">
    Numerical Variables
   </a>
@@ -430,6 +450,11 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#understanding-variables">
+   Understanding Variables
+  </a>
+ </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#numerical-variables">
    Numerical Variables
@@ -538,6 +563,67 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+<section id="understanding-variables">
+<h2>Understanding Variables<a class="headerlink" href="#understanding-variables" title="Permalink to this headline">#</a></h2>
+<p>There are 27 columns and 20632 observations are present in the data set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 20632 entries, 0 to 20631
+Data columns (total 27 columns):
+ #   Column                  Non-Null Count  Dtype  
+---  ------                  --------------  -----  
+ 0   index                   20632 non-null  int64  
+ 1   id                      20632 non-null  int64  
+ 2   name                    20632 non-null  object 
+ 3   blurb                   20627 non-null  object 
+ 4   goal                    20632 non-null  float64
+ 5   pledged                 20632 non-null  float64
+ 6   state                   20632 non-null  object 
+ 7   slug                    20632 non-null  object 
+ 8   disable_communication   20632 non-null  bool   
+ 9   country                 20632 non-null  object 
+ 10  currency                20632 non-null  object 
+ 11  currency_trailing_code  20632 non-null  bool   
+ 12  deadline                20632 non-null  object 
+ 13  state_changed_at        20632 non-null  object 
+ 14  created_at              20632 non-null  object 
+ 15  launched_at             20632 non-null  object 
+ 16  staff_pick              20632 non-null  bool   
+ 17  backers_count           20632 non-null  int64  
+ 18  static_usd_rate         20632 non-null  float64
+ 19  usd_pledged             20632 non-null  float64
+ 20  category                18743 non-null  object 
+ 21  spotlight               20632 non-null  bool   
+ 22  source_url              20632 non-null  object 
+ 23  name_len                20627 non-null  float64
+ 24  name_len_clean          20627 non-null  float64
+ 25  blurb_len               20627 non-null  float64
+ 26  blurb_len_clean         20627 non-null  float64
+dtypes: bool(4), float64(8), int64(3), object(12)
+memory usage: 3.7+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Following data types of variables exist in the data set:</p>
+<ol class="simple">
+<li><p>Boolean - 4 variables</p></li>
+<li><p>Float - 8 variabels</p></li>
+<li><p>Integer - 3 variables</p></li>
+<li><p>Object or string - 12 variables</p></li>
+</ol>
+<p>There is no missing data in the data set.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There exist date variables for which the data type came out to be as string. But if required, those will be converted to date type and then processed accordingly.</p>
+</div>
+</section>
 <section id="numerical-variables">
 <h2>Numerical Variables<a class="headerlink" href="#numerical-variables" title="Permalink to this headline">#</a></h2>
 <section id="measures-of-central-tendency-and-dispersion">
@@ -681,7 +767,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_14_0.svg" src="../../_images/univariate_analysis_14_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_19_0.svg" src="../../_images/univariate_analysis_19_0.svg" /></div>
 </div>
 <p>The box plot ends near zero itself and is not visible. Hence, it would be better to check the distribution over a shorter range.</p>
 <div class="cell tag_hide-input docutils container">
@@ -693,7 +779,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_16_0.svg" src="../../_images/univariate_analysis_16_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_21_0.svg" src="../../_images/univariate_analysis_21_0.svg" /></div>
 </div>
 <p>There are very few observations that are present beyond 1M. Hence for the analysis observations with goal less than 1M will be considered. Also, it will be better to let go observations beyond 1M as such projects have different characteristics than those below 1M and hence require separate analysis.</p>
 <div class="cell tag_hide-input docutils container">
@@ -705,20 +791,20 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_18_0.svg" src="../../_images/univariate_analysis_18_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_23_0.svg" src="../../_images/univariate_analysis_23_0.svg" /></div>
 </div>
 <p>Even in the range of 0-1M, very few projects exist that have goals beyond 0.5M. But since all projects with 1M goal range have similar characteristics, there will be a significant of loss of information if the range is further shortened.
 Also, the distribution contains spikes at certain amounts. These spikes exist at amounts whose first 2 digits are multiple of 5. Naturally, it makes sense that people prefer these amount more than anything else but it is astonishing to know that people also prefer other numbers for setting the goal.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;pledged&#39; variable</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;usd_pledged&#39; variable</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;usd_pledged&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of pledged amount&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_20_0.svg" src="../../_images/univariate_analysis_20_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_25_0.svg" src="../../_images/univariate_analysis_25_0.svg" /></div>
 </div>
 <p>The story repeats for the pledged amount. There are very few observations that are present beyond 1M.</p>
 <div class="cell tag_hide-input docutils container">
@@ -730,7 +816,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_22_0.svg" src="../../_images/univariate_analysis_22_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_27_0.svg" src="../../_images/univariate_analysis_27_0.svg" /></div>
 </div>
 <p>Visually, it seems that this variable has a distribution similar to the goal, it can be inferred that there is no discrepancy in the goal variable. Moreover, this variable will be dropped since it can not be known before the campaign launch.</p>
 <div class="cell tag_hide-input docutils container">
@@ -742,9 +828,21 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_24_0.svg" src="../../_images/univariate_analysis_24_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_29_0.svg" src="../../_images/univariate_analysis_29_0.svg" /></div>
 </div>
-<p>Even the distribution of the number of backers is highly skewed. The box plot is not even visible. It will be beneficial to check at a lower range of values.</p>
+<p>Even the distribution of the number of backers is highly skewed. The box plot is not even visible. It will be beneficial to check at a lower range of values. There exist one project which has backers of more than 100k which is skewing the distribution. Most of the observations seem to be present in the range of less than 10K.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;backers_count&#39; variable for range 0-50k</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;backers_count&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">10000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of number of backers&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/univariate_analysis_31_0.svg" src="../../_images/univariate_analysis_31_0.svg" /></div>
+</div>
+<p>Thus, the distribution of the number of backers is also highly right-skewed, though the majority of the observations lie in the range of less than 1K only, signifying that most of the projects have less than 1K backers.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;name_len&#39; variable</span>
@@ -754,7 +852,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_26_0.svg" src="../../_images/univariate_analysis_26_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_33_0.svg" src="../../_images/univariate_analysis_33_0.svg" /></div>
 </div>
 <p>Mostly, the lengths of project names are below 12. According to the box plot, project names with lengths 15 to 16 are outliers. Since the numbers of observations are too low, they can be safely removed, since there will not be much loss of information.</p>
 <div class="cell tag_hide-input docutils container">
@@ -766,7 +864,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_28_0.svg" src="../../_images/univariate_analysis_28_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_35_0.svg" src="../../_images/univariate_analysis_35_0.svg" /></div>
 </div>
 <p>According to the box plot, lengths of blurbs less than 10 and more than 28 are not normal. Since the number of observations of such records are less, they can be safely removed without the loss of much information. Also, intuitively it makes sense that blurbs with length less than 10 cannot provide much information about the project and such projects cannot be modelled properly.</p>
 </section>
@@ -862,7 +960,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_37_0.svg" src="../../_images/univariate_analysis_37_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_44_0.svg" src="../../_images/univariate_analysis_44_0.svg" /></div>
 </div>
 <p>There are multiple states of the project as depicted by the above bar chart. But the analysis will be performed for successful and failed projects. The number of successful projects are slightly more than half of the number of failed projects.</p>
 <p>The other categories cannot be predicted since there exist certain unique reasons for a project to be canceled and suspended guided by the guideline of the platform.</p>
@@ -875,7 +973,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_39_0.svg" src="../../_images/univariate_analysis_39_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_46_0.svg" src="../../_images/univariate_analysis_46_0.svg" /></div>
 </div>
 <p>There are certain countries whose proportion is less than 1%. If <em>country</em> is one-hot encoded, then they will create variable with less than 1% variance and hence can distort the output of certain models. Hence it is better to remove such countries. Since they are less in number, they provide little information to the model and the possibility of dominance from records of other countries increases.</p>
 <div class="cell tag_hide-input docutils container">
@@ -887,7 +985,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_41_0.svg" src="../../_images/univariate_analysis_41_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_48_0.svg" src="../../_images/univariate_analysis_48_0.svg" /></div>
 </div>
 <p>The same logic goes for currencies. It will be beneficial to remove currencies having proportion less than 1%.</p>
 <div class="cell tag_hide-input docutils container">
@@ -899,7 +997,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_43_0.svg" src="../../_images/univariate_analysis_43_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_50_0.svg" src="../../_images/univariate_analysis_50_0.svg" /></div>
 </div>
 <p>Categories with less than 1% of the total number of observations will not be able to any meaningly information to the models and other categories with a larger number of records can dominate. Hence, categories with less 1% of the total number of records will be removed.</p>
 <div class="cell tag_hide-input docutils container">
@@ -911,7 +1009,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_45_0.svg" src="../../_images/univariate_analysis_45_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_52_0.svg" src="../../_images/univariate_analysis_52_0.svg" /></div>
 </div>
 <p>Less than a third number of projects find a place in the spotlight section of Kickstarter.</p>
 <div class="cell tag_hide-input docutils container">
@@ -923,7 +1021,7 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/univariate_analysis_47_0.svg" src="../../_images/univariate_analysis_47_0.svg" /></div>
+<img alt="../../_images/univariate_analysis_54_0.svg" src="../../_images/univariate_analysis_54_0.svg" /></div>
 </div>
 <p>The probability of a project getting picked up by staff is too small. Staff promotion ensures greater success for the project.</p>
 </section>

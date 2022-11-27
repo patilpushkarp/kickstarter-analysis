@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Models" href="../models/models.html" />
+    <link rel="next" title="Data Preprocessing" href="../models/preprocessing.html" />
     <link rel="prev" title="Univariate Analysis" href="univariate_analysis.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -137,6 +137,21 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../models/preprocessing.html">
+   Data Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../models/feature_engineering.html">
+   Feature Engineering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../models/data_augmentation.html">
+   Data Augmentation
+  </a>
+ </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../models/models.html">
    Models
@@ -148,8 +163,8 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../models/log_reg_untreated.html">
-     Logistic Regression - Simple Data
+    <a class="reference internal" href="../models/logistic_regression.html">
+     Logistic Regression
     </a>
    </li>
   </ul>
@@ -381,6 +396,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#numerical-variables">
    Numerical Variables
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#distributions">
+     Distributions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correlation-analysis">
+     Correlation analysis
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#categorical-variables">
@@ -410,6 +437,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#numerical-variables">
    Numerical Variables
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#distributions">
+     Distributions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correlation-analysis">
+     Correlation analysis
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#categorical-variables">
@@ -428,29 +467,35 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="multivariate-analysis">
 <h1>Multivariate Analysis<a class="headerlink" href="#multivariate-analysis" title="Permalink to this headline">#</a></h1>
-<div class="cell docutils container">
+<p>Multivariate is the statistical study of data in which experiments are conducted on multiple variables in unit to understand the relationships among those measurements.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary packages</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
 <span class="n">svg_renderer</span> <span class="o">=</span> <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="s2">&quot;svg&quot;</span><span class="p">]</span>
 <span class="n">svg_renderer</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">svg_renderer</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;svg&quot;</span>
 <span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">plotly.figure_factory</span> <span class="k">as</span> <span class="nn">ff</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/data.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/data.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the size of data</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
@@ -460,9 +505,10 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the columns of the data</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 </div>
 </div>
@@ -478,51 +524,31 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;failed&#39;</span><span class="p">,</span> <span class="s1">&#39;successful&#39;</span><span class="p">])]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only relevant data concerning the target variable i.e.</span>
+<span class="c1"># select data observations for which the state of project is either failed or successful</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;failed&#39;</span><span class="p">,</span> <span class="s1">&#39;successful&#39;</span><span class="p">])]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="numerical-variables">
 <h2>Numerical Variables<a class="headerlink" href="#numerical-variables" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
+<section id="distributions">
+<h3>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">#</a></h3>
+<p>Starting with the numerical vairables that are <em>goal</em>, <em>usd_pledged</em>, <em>backers_count</em>, <em>name_len</em>, and <em>blurb_len</em>.</p>
+<p>As per our analysis in the previous section, the selected range of <em>goal</em> variable is from 0 to 1M because that’s where most of the observations exist.</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">1000001</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/multivariate_analysis_7_0.svg" src="../../_images/multivariate_analysis_7_0.svg" /></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;name_len&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/multivariate_analysis_8_0.svg" src="../../_images/multivariate_analysis_8_0.svg" /></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;blurb_len&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/multivariate_analysis_9_0.svg" src="../../_images/multivariate_analysis_9_0.svg" /></div>
-</div>
-</section>
-<section id="categorical-variables">
-<h2>Categorical Variables<a class="headerlink" href="#categorical-variables" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distribution of &#39;goal&#39; variable for less than 1M</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">1000000</span><span class="p">],</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> 
+                    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> 
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of goal less 1M&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -530,26 +556,207 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <img alt="../../_images/multivariate_analysis_11_0.svg" src="../../_images/multivariate_analysis_11_0.svg" /></div>
 </div>
-<div class="cell docutils container">
+<p>The distributions of failed goals and successful goals are mostly overlapping. But failed project goals have a fatter right tail than successful project goals. This signifies that the chance of failure of a crowdfunding project increases with increase in the fund goals.</p>
+<p>The same range of 0 to 1M will be utilized for the pledged amount.</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distribution of &#39;usd_pledged&#39; variable for less than 1M</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;usd_pledged&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">1000000</span><span class="p">],</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;usd_pledged&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> 
+                    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> 
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of pledged amounts less 1M&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/multivariate_analysis_12_0.svg" src="../../_images/multivariate_analysis_12_0.svg" /></div>
+<img alt="../../_images/multivariate_analysis_14_0.svg" src="../../_images/multivariate_analysis_14_0.svg" /></div>
 </div>
-<div class="cell docutils container">
+<p>But the pledged amount tells a different story. From the above chart, it can be observed that successful projects have fatter tail than failed ones. This signifies that for successful projects, though the goals of projects were less, they were able to raise way beyond their goals, while the situation is the other way round for the failed projects. Since the distribution is quite wide for successful projects and failed projects, it can be said that successful projects are quite different from failed projects i.e. they may be distinctively separable.</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;backers_count&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;backers_count&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">10000</span><span class="p">],</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> 
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of number of backers&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/multivariate_analysis_13_0.svg" src="../../_images/multivariate_analysis_13_0.svg" /></div>
+<img alt="../../_images/multivariate_analysis_16_0.svg" src="../../_images/multivariate_analysis_16_0.svg" /></div>
 </div>
+<p>The results of the above graph matches the intuition that successful projects have more backers than the failed projects.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;name_len&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;name_len&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> 
+                    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of length of project name&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_18_0.svg" src="../../_images/multivariate_analysis_18_0.svg" /></div>
+</div>
+<p>The distributions are mostly overlapping for both type of projects but the median of the length of successful project names lies to the right of the length of the failed project names. Thus, it can be inferred that project names with greater length are more likely to be successful.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;blurb_len&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;blurb_len&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> 
+                    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of the length of blurb&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_20_0.svg" src="../../_images/multivariate_analysis_20_0.svg" /></div>
+</div>
+</section>
+<section id="correlation-analysis">
+<h3>Correlation analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this headline">#</a></h3>
+<p>Only numerical variables can be used to analyze the correlation with target variable. But since our target variable is also categorical, it is irrelevant to perform correlation analysis with the target variable.</p>
+<p>But since numerical variables are available, it is beneficial to spot multicollinearity in the data using correlation.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the correlation of numeric data</span>
+<span class="n">relevant_numeric_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> <span class="s1">&#39;static_usd_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;name_len&#39;</span><span class="p">,</span> <span class="s1">&#39;name_len_clean&#39;</span><span class="p">,</span> 
+                            <span class="s1">&#39;blurb_len&#39;</span><span class="p">,</span> <span class="s1">&#39;blurb_len_clean&#39;</span><span class="p">]</span>
+<span class="n">df_corr</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">relevant_numeric_columns</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_corr</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_corr</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_corr</span><span class="p">)</span>
+
+<span class="c1"># Plot the heatmap of the correlation matrix obtained in the above step</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">create_annotated_heatmap</span><span class="p">(</span>
+    <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">annotation_text</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">showscale</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_24_0.svg" src="../../_images/multivariate_analysis_24_0.svg" /></div>
+</div>
+<p>The only columns that are highly positively correlated are the length of project names and blurb with their corresponding cleaned columns. For modeling purposes, it will be more appropriate to use the cleaned column lengths. Moreover, there are no columns which are significantly negatively correlated.</p>
+</section>
+</section>
+<section id="categorical-variables">
+<h2>Categorical Variables<a class="headerlink" href="#categorical-variables" title="Permalink to this headline">#</a></h2>
+<p>Continuing with categorical variables that are <em>country</em>, <em>currency</em>, <em>category</em>, <em>spotlight</em>, and <em>staff_pick</em>.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;country&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> 
+                    <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Country-wise distribution of projects&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_28_0.svg" src="../../_images/multivariate_analysis_28_0.svg" /></div>
+</div>
+<p>The variable <em>country</em> does not seem to have any effect on the the target variable. No country is dominant in terms of successful projects.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of the &#39;currency&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> 
+                    <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Distribution of projects as per currency of transaction&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_30_0.svg" src="../../_images/multivariate_analysis_30_0.svg" /></div>
+</div>
+<p>More proportion of projects is successful when transacting in Hong Kong Dollars while the trend is reversed when transacting in Danish Krone and Norwegian Krone. The other currencies do not seem to have any pattern concerning the target variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;category&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_32_0.svg" src="../../_images/multivariate_analysis_32_0.svg" /></div>
+</div>
+<p>The following observations can be made with the above chart:</p>
+<ol class="simple">
+<li><p>Categories such as academic, places, webseries, and thrillers have no successful projects.</p></li>
+<li><p>Categories such as blues, shorts and comedy have not failed projects.</p></li>
+<li><p>Web and software categories have a significant proportion of failed projects.</p></li>
+<li><p>Plays and musical categories have a significant proportion of successful projects.</p></li>
+</ol>
+<p>Since this sample of data does not have failed and successful projects for all categories, it will be beneficial to keep only those categories that have representation from both successful and failed projects as bias in the data can be passed on or can even be amplified in the models.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;spotlight&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;spotlight&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of projects in spotlight&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_34_0.svg" src="../../_images/multivariate_analysis_34_0.svg" /></div>
+</div>
+<p>It can be seen that the projects which were in spotlight were all successful while those which were not failed. This is a biased variable and hence it is better to drop this variable for creating the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;staff_pick&#39; variable</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;staff_pick&#39;</span><span class="p">,</span> 
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
+                    <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span>
+                    <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of projects picked up by staff&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/multivariate_analysis_36_0.svg" src="../../_images/multivariate_analysis_36_0.svg" /></div>
+</div>
+<p>The chance that a project is successful increases with the possibility of getting picked up by the staff. Very few projects picked up by staff fail.</p>
 </section>
 </section>
 
@@ -587,10 +794,10 @@ title="Print to PDF"
             <p class="prev-next-title">Univariate Analysis</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../models/models.html" title="next page">
+    <a class='right-next' id="next-link" href="../models/preprocessing.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Models</p>
+        <p class="prev-next-title">Data Preprocessing</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
