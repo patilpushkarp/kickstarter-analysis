@@ -9,9 +9,12 @@ chapters:
   sections:
   - file: docs/eda/univariate_analysis.ipynb
   - file: docs/eda/multivariate_analysis.ipynb
+- file: docs/models/preprocessing.ipynb
+- file: docs/models/feature_engineering.ipynb
+- file: docs/models/data_augmentation.ipynb
 - file: docs/models/models.md
   sections:
-  - file: docs/models/log_reg_untreated.ipynb
+  - file: docs/models/logistic_regression.ipynb
 - file: extras.md
   sections:
   - file: references.md

@@ -129,6 +129,5 @@ dmypy.json
 .pyre/
 
 # Extras
-data/
 .DS_Store
 _build/
