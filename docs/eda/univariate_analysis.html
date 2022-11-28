@@ -508,33 +508,33 @@ title="Print to PDF"
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary packages</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
-<span class="n">svg_renderer</span> <span class="o">=</span> <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="p">[</span><span class="s2">&quot;svg&quot;</span><span class="p">]</span>
-<span class="n">svg_renderer</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">800</span>
-<span class="n">svg_renderer</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;svg&quot;</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Import necessary packages
+import pandas as pd
+import numpy as np
+from scipy import stats
+import plotly.graph_objects as go
+import plotly.io as pio
+svg_renderer = pio.renderers[&quot;svg&quot;]
+svg_renderer.width = 800
+svg_renderer.height = 500
+pio.renderers.default = &quot;svg&quot;
+import plotly.express as px
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/data.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load data
+df = pd.read_csv(&#39;./../../data/data.csv&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the shape of the data</span>
-<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the shape of the data
+df.shape
 </pre></div>
 </div>
 </div>
@@ -546,8 +546,8 @@ title="Print to PDF"
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the column names of the data set</span>
-<span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the column names of the data set
+df.columns
 </pre></div>
 </div>
 </div>
@@ -568,7 +568,7 @@ title="Print to PDF"
 <p>There are 27 columns and 20632 observations are present in the data set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df.info()
 </pre></div>
 </div>
 </div>
@@ -631,16 +631,16 @@ memory usage: 3.7+ MB
 <p>Central tendency is the descriptive summary of a data set. A single number reflects the center of the distribution of a variable. Popular measures of central tendency for numerical variables are mean and median.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select relevant numerical columns</span>
-<span class="n">relevant_numerical_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="s1">&#39;usd_pledged&#39;</span><span class="p">,</span> <span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> <span class="s1">&#39;static_usd_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;name_len&#39;</span><span class="p">,</span> <span class="s1">&#39;blurb_len&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select relevant numerical columns
+relevant_numerical_columns = [&#39;goal&#39;, &#39;usd_pledged&#39;, &#39;backers_count&#39;, &#39;static_usd_rate&#39;, &#39;name_len&#39;, &#39;blurb_len&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the descriptive statistics for each of the relevant numerical columns</span>
-<span class="n">df</span><span class="p">[</span><span class="n">relevant_numerical_columns</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the descriptive statistics for each of the relevant numerical columns
+df[relevant_numerical_columns].describe()
 </pre></div>
 </div>
 </div>
@@ -760,9 +760,9 @@ memory usage: 3.7+ MB
 <h3>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distribution of &#39;goal&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of goal amounts&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot distribution of &#39;goal&#39; variable
+fig = px.histogram(df, x=&#39;goal&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of goal amounts&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -772,9 +772,9 @@ memory usage: 3.7+ MB
 <p>The box plot ends near zero itself and is not visible. Hence, it would be better to check the distribution over a shorter range.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distibution of &#39;goal&#39; variable from 0-10M.</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">10000000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of goal less 10M&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot distibution of &#39;goal&#39; variable from 0-10M.
+fig = px.histogram(df[df[&#39;goal&#39;]&lt;=10000000], x=&#39;goal&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of goal less 10M&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -784,9 +784,9 @@ memory usage: 3.7+ MB
 <p>There are very few observations that are present beyond 1M. Hence for the analysis observations with goal less than 1M will be considered. Also, it will be better to let go observations beyond 1M as such projects have different characteristics than those below 1M and hence require separate analysis.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot distibution of &#39;goal&#39; variable from 0-1M.</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">1000000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of goal less 1M&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot distibution of &#39;goal&#39; variable from 0-1M.
+fig = px.histogram(df[df[&#39;goal&#39;]&lt;=1000000], x=&#39;goal&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of goal less 1M&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -797,9 +797,9 @@ memory usage: 3.7+ MB
 Also, the distribution contains spikes at certain amounts. These spikes exist at amounts whose first 2 digits are multiple of 5. Naturally, it makes sense that people prefer these amount more than anything else but it is astonishing to know that people also prefer other numbers for setting the goal.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;usd_pledged&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;usd_pledged&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of pledged amount&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;usd_pledged&#39; variable
+fig = px.histogram(df, x=&#39;usd_pledged&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of pledged amount&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -809,9 +809,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>The story repeats for the pledged amount. There are very few observations that are present beyond 1M.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;pledged&#39; variable for the range 0-1M</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;usd_pledged&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">1000000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;usd_pledged&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of pledged amount&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;pledged&#39; variable for the range 0-1M
+fig = px.histogram(df[df[&#39;usd_pledged&#39;]&lt;=1000000], x=&#39;usd_pledged&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of pledged amount&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -821,9 +821,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>Visually, it seems that this variable has a distribution similar to the goal, it can be inferred that there is no discrepancy in the goal variable. Moreover, this variable will be dropped since it can not be known before the campaign launch.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;backers_count&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of number of backers&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;backers_count&#39; variable
+fig = px.histogram(df, x=&#39;backers_count&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of number of backers&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -833,9 +833,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>Even the distribution of the number of backers is highly skewed. The box plot is not even visible. It will be beneficial to check at a lower range of values. There exist one project which has backers of more than 100k which is skewing the distribution. Most of the observations seem to be present in the range of less than 10K.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;backers_count&#39; variable for range 0-50k</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;backers_count&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">10000</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of number of backers&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;backers_count&#39; variable for range 0-50k
+fig = px.histogram(df[df[&#39;backers_count&#39;]&lt;=10000], x=&#39;backers_count&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of number of backers&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -845,9 +845,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>Thus, the distribution of the number of backers is also highly right-skewed, though the majority of the observations lie in the range of less than 1K only, signifying that most of the projects have less than 1K backers.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;name_len&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;name_len&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of length of project name&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;name_len&#39; variable
+fig = px.histogram(df, x=&#39;name_len&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of length of project name&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -857,9 +857,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>Mostly, the lengths of project names are below 12. According to the box plot, project names with lengths 15 to 16 are outliers. Since the numbers of observations are too low, they can be safely removed, since there will not be much loss of information.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distibution of &#39;blurb_len&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;blurb_len&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">marginal</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of length of blurbs&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distibution of &#39;blurb_len&#39; variable
+fig = px.histogram(df, x=&#39;blurb_len&#39;, log_y=True, marginal=&#39;box&#39;, title=&#39;Distribution of length of blurbs&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -876,16 +876,16 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>For categorical variables, the measure of central tendency is expressed by mode.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select relevant categorical variables</span>
-<span class="n">relevant_categorical_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;disable_communication&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;staff_pick&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;spotlight&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select relevant categorical variables
+relevant_categorical_variables = [&#39;state&#39;, &#39;disable_communication&#39;, &#39;country&#39;, &#39;currency&#39;, &#39;staff_pick&#39;, &#39;category&#39;, &#39;spotlight&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the mode of the relevant categorical columns</span>
-<span class="n">df</span><span class="p">[</span><span class="n">relevant_categorical_variables</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the mode of the relevant categorical columns
+df[relevant_categorical_variables].mode()
 </pre></div>
 </div>
 </div>
@@ -946,16 +946,16 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <h3>Distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;state&#39; variable</span>
-<span class="n">color_discrete_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
-<span class="n">color_discrete_sequence</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;light blue&#39;</span>
-<span class="n">color_discrete_sequence</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;light green&#39;</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> 
-                    <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                    <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="n">color_discrete_sequence</span><span class="p">,</span> 
-                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> 
-                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of state of projects&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;state&#39; variable
+color_discrete_sequence = [&#39;orange&#39;]*df[&#39;state&#39;].nunique()
+color_discrete_sequence[0] = &#39;light blue&#39;
+color_discrete_sequence[2] = &#39;light green&#39;
+fig = px.histogram(df, x=&#39;state&#39;, 
+                    text_auto=True, 
+                    color_discrete_sequence=color_discrete_sequence, 
+                    color = &#39;state&#39;, 
+                    title=&#39;Distribution of state of projects&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -966,9 +966,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>The other categories cannot be predicted since there exist certain unique reasons for a project to be canceled and suspended guided by the guideline of the platform.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;country&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of country of projects&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;country&#39; variable
+fig = px.histogram(df, x=&#39;country&#39;, text_auto=True, histnorm=&#39;percent&#39;, log_y=True, title=&#39;Distribution of country of projects&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -978,9 +978,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>There are certain countries whose proportion is less than 1%. If <em>country</em> is one-hot encoded, then they will create variable with less than 1% variance and hence can distort the output of certain models. Hence it is better to remove such countries. Since they are less in number, they provide little information to the model and the possibility of dominance from records of other countries increases.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;currency&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of curency of transaction&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;currency&#39; variable
+fig = px.histogram(df, x=&#39;currency&#39;, text_auto=True, histnorm=&#39;percent&#39;, log_y=True, title=&#39;Distribution of curency of transaction&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -990,9 +990,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>The same logic goes for currencies. It will be beneficial to remove currencies having proportion less than 1%.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;category&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of category of projects&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;category&#39; variable
+fig = px.histogram(df, x=&#39;category&#39;, text_auto=True, histnorm=&#39;percent&#39;, log_y=True, title=&#39;Distribution of category of projects&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -1002,9 +1002,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>Categories with less than 1% of the total number of observations will not be able to any meaningly information to the models and other categories with a larger number of records can dominate. Hence, categories with less 1% of the total number of records will be removed.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;spotlight&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;spotlight&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of projects in spotlight&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;spotlight&#39; variable
+fig = px.histogram(df, x=&#39;spotlight&#39;, text_auto=True, histnorm=&#39;percent&#39;, title=&#39;Distribution of projects in spotlight&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>
@@ -1014,9 +1014,9 @@ Also, the distribution contains spikes at certain amounts. These spikes exist at
 <p>Less than a third number of projects find a place in the spotlight section of Kickstarter.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the distribution of &#39;staff_pick&#39; variable</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;staff_pick&#39;</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of projects picked by staff&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distribution of &#39;staff_pick&#39; variable
+fig = px.histogram(df, x=&#39;staff_pick&#39;, text_auto=True, histnorm=&#39;percent&#39;, title=&#39;Distribution of projects picked by staff&#39;)
+fig.show()
 </pre></div>
 </div>
 </div>

@@ -456,11 +456,11 @@ title="Print to PDF"
 <p>Feature engineering is the most step in any machine learning project. It involves selecting the relevant columns for modeling as well as creating new features from the existing data which will provide more information to the models.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary packages</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">VarianceThreshold</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Import necessary packages
+import pandas as pd
+import datetime
+from sklearn.feature_selection import VarianceThreshold
+from sklearn.preprocessing import StandardScaler
 </pre></div>
 </div>
 </div>
@@ -468,8 +468,8 @@ title="Print to PDF"
 <p>For feature engineering, it is necessary that data be cleaned and data types of the columns should have been corrected. In other words, the data should be preprocessed.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/preprocessed.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
+df = pd.read_csv(&#39;./../../data/preprocessed.csv&#39;, parse_dates=True)
 </pre></div>
 </div>
 </div>
@@ -494,51 +494,51 @@ title="Print to PDF"
 <tr class="row-even"><td class="text-align:left"><p>launch_to_state_change_</p></td>
 <td class="text-align:left"><p>Gap in days between the launch to the change in the state of project</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>is_mon_tue</p></td>
-<td class="text-align:left"><p>Whether the project is launched on Monday or Tuesday. It is observed that projects released on these weekdays have more chance to be successful</p></td>
+<tr class="row-odd"><td class="text-align:left"><p>twf_launch</p></td>
+<td class="text-align:left"><p>Whether the project is launched on Tuesday, Wednesday or Friday. It is observed that projects launched on Tuesday have more chances to be successful while the projects launched on Wednesday and Friday are more bound to failure</p></td>
 </tr>
 </tbody>
 </table>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct the data type of date variables</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Correct the data type of date variables
 
-<span class="c1"># Select the date variables</span>
-<span class="n">date_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;launched_at&#39;</span><span class="p">,</span> <span class="s1">&#39;state_changed_at&#39;</span><span class="p">,</span> <span class="s1">&#39;deadline&#39;</span><span class="p">]</span>
+# Select the date variables
+date_variables = [&#39;created_at&#39;, &#39;launched_at&#39;, &#39;state_changed_at&#39;, &#39;deadline&#39;]
 
-<span class="c1"># Change the data type</span>
-<span class="n">df</span><span class="p">[</span><span class="n">date_variables</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_variables</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span>
+# Change the data type
+df[date_variables] = df[date_variables].apply(pd.to_datetime)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creation of new columns from the date columns available in the data</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_to_launch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;launched_at&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;launch_to_deadline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;deadline&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;launched_at&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;launch_to_state_change&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;state_changed_at&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;launched_at&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Creation of new columns from the date columns available in the data
+df[&#39;created_to_launch&#39;] = df[&#39;launched_at&#39;] - df[&#39;created_at&#39;]
+df[&#39;launch_to_deadline&#39;] = df[&#39;deadline&#39;] - df[&#39;launched_at&#39;]
+df[&#39;launch_to_state_change&#39;] = df[&#39;state_changed_at&#39;] - df[&#39;launched_at&#39;]
 
-<span class="c1"># Changing the gap data to days</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_to_launch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_to_launch&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;launch_to_deadline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;launch_to_deadline&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;launch_to_state_change&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;launch_to_state_change&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+# Changing the gap data to days
+df[&#39;created_to_launch&#39;] = df[&#39;created_to_launch&#39;] / datetime.timedelta(days=1)
+df[&#39;launch_to_deadline&#39;] = df[&#39;launch_to_deadline&#39;] / datetime.timedelta(days=1)
+df[&#39;launch_to_state_change&#39;] = df[&#39;launch_to_state_change&#39;] / datetime.timedelta(days=1)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check whether the project is launched on Monday or Tuesday</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_mon_tue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;launched_at&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Check whether the project is launched on Monday or Tuesday
+df[&#39;twf_launch&#39;] = df[&#39;launched_at&#39;].apply(lambda x: 1 if x.weekday() in [1, 2, 4] else 0)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the shape of data</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The shape of engineered data is: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> rows and </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the shape of data
+print(f&quot;The shape of engineered data is: {df.shape[0]} rows and {df.shape[1]}&quot;)
 </pre></div>
 </div>
 </div>
@@ -550,7 +550,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df.info()
 </pre></div>
 </div>
 </div>
@@ -634,7 +634,7 @@ Data columns (total 75 columns):
  71  created_to_launch       14862 non-null  float64       
  72  launch_to_deadline      14862 non-null  float64       
  73  launch_to_state_change  14862 non-null  float64       
- 74  is_mon_tue              14862 non-null  int64         
+ 74  twf_launch              14862 non-null  int64         
 dtypes: datetime64[ns](4), float64(11), int64(56), object(4)
 memory usage: 8.5+ MB
 </pre></div>
@@ -666,23 +666,23 @@ Also, the convergence of algorithms becomes difficult if the variance of a featu
 </ol>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep only relevant columns</span>
-<span class="n">drop_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;blurb&#39;</span><span class="p">,</span> <span class="s1">&#39;pledged&#39;</span><span class="p">,</span> <span class="s1">&#39;slug&#39;</span><span class="p">,</span> <span class="s1">&#39;deadline&#39;</span><span class="p">,</span> <span class="s1">&#39;state_changed_at&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;launched_at&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;usd_pledged&#39;</span><span class="p">,</span> <span class="s1">&#39;spotlight&#39;</span><span class="p">,</span> <span class="s1">&#39;source_url&#39;</span><span class="p">,</span> <span class="s1">&#39;name_len&#39;</span><span class="p">,</span> <span class="s1">&#39;blurb_len&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Keep only relevant columns
+drop_columns = [&#39;index&#39;, &#39;id&#39;, &#39;name&#39;, &#39;blurb&#39;, &#39;pledged&#39;, &#39;slug&#39;, &#39;deadline&#39;, &#39;state_changed_at&#39;, &#39;created_at&#39;, &#39;launched_at&#39;,
+                &#39;usd_pledged&#39;, &#39;spotlight&#39;, &#39;source_url&#39;, &#39;name_len&#39;, &#39;blurb_len&#39;]
+df.drop(drop_columns, axis=1, inplace=True)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove all low-variance features</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Remove all low-variance features
 
-<span class="c1"># Declare the selector</span>
-<span class="n">selector</span> <span class="o">=</span> <span class="n">VarianceThreshold</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span> <span class="c1"># Keep the threshold to 1%.</span>
+# Declare the selector
+selector = VarianceThreshold(threshold=0.01) # Keep the threshold to 1%.
 
-<span class="c1"># Use selector to subset the data</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+# Use selector to subset the data
+data = selector.fit_transform(df)
 </pre></div>
 </div>
 </div>
@@ -690,8 +690,8 @@ Also, the convergence of algorithms becomes difficult if the variance of a featu
 <p>Following features are selected after dropping the columns with low-variance:</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the list of features that are selected</span>
-<span class="n">selector</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the list of features that are selected
+selector.get_feature_names_out().tolist()
 </pre></div>
 </div>
 </div>
@@ -733,15 +733,15 @@ Also, the convergence of algorithms becomes difficult if the variance of a featu
  &#39;created_to_launch&#39;,
  &#39;launch_to_deadline&#39;,
  &#39;launch_to_state_change&#39;,
- &#39;is_mon_tue&#39;]
+ &#39;twf_launch&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store the result</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">selector</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store the result
+result = pd.DataFrame(data, columns=selector.get_feature_names_out().tolist())
 </pre></div>
 </div>
 </div>
@@ -756,32 +756,32 @@ Also, the convergence of algorithms becomes difficult if the variance of a featu
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decalre the scaler object</span>
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Decalre the scaler object
+scaler = StandardScaler()
 
-<span class="c1"># Select features to scale</span>
-<span class="n">features_to_scale</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="s1">&#39;backers_count&#39;</span><span class="p">,</span> <span class="s1">&#39;name_len_clean&#39;</span><span class="p">,</span> <span class="s1">&#39;blurb_len_clean&#39;</span><span class="p">]</span>
+# Select features to scale
+features_to_scale = [&#39;goal&#39;, &#39;backers_count&#39;, &#39;name_len_clean&#39;, &#39;blurb_len_clean&#39;]
 
-<span class="c1"># Use the scaler object to scale the data</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">features_to_scale</span><span class="p">])</span>
+# Use the scaler object to scale the data
+data = scaler.fit_transform(result[features_to_scale])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store the results appropriately</span>
-<span class="n">scaled_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">features_to_scale</span><span class="p">)</span>
-<span class="n">final_result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">final_result</span><span class="p">[</span><span class="n">features_to_scale</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaled_result</span><span class="p">[</span><span class="n">features_to_scale</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store the results appropriately
+scaled_result = pd.DataFrame(data, columns=features_to_scale)
+final_result = result.copy()
+final_result[features_to_scale] = scaled_result[features_to_scale]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the result to a file</span>
-<span class="n">final_result</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/engineered_data.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the result to a file
+final_result.to_csv(&#39;./../../data/engineered_data.csv&#39;)
 </pre></div>
 </div>
 </div>

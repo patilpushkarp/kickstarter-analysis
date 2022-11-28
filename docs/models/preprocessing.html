@@ -399,16 +399,16 @@ title="Print to PDF"
 <p>Based on the insights that are obtained from the previous analysis, it is required that the data be treated to engineer new features and create models.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary packages</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Import necessary packages
+import pandas as pd
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/data.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
+df = pd.read_csv(&#39;./../../data/data.csv&#39;)
 </pre></div>
 </div>
 </div>
@@ -434,94 +434,94 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select data for only successful and failed projects</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;successful&#39;</span><span class="p">,</span> <span class="s1">&#39;failed&#39;</span><span class="p">])]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select data for only successful and failed projects
+df = df[df[&#39;state&#39;].isin([&#39;successful&#39;, &#39;failed&#39;])]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select observations having a goal mount less than equal to 1M</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;goal&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1000000</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select observations having a goal mount less than equal to 1M
+df = df[df[&#39;goal&#39;] &lt;= 1000000]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select observations having backers count less than equal to 1000</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;backers_count&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select observations having backers count less than equal to 1000
+df = df[df[&#39;backers_count&#39;] &lt;= 1000]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select observations having a length of blurb less than 35</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;blurb_len&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">35</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select observations having a length of blurb less than 35
+df = df[df[&#39;blurb_len&#39;] &lt; 35]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select categories that have representation from both the categories of target variables</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Select categories that have representation from both the categories of target variables
 
-<span class="c1"># Select the categories to keep</span>
-<span class="n">categories</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="n">selected_categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">category</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">categories</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">category</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+# Select the categories to keep
+categories = df[&#39;category&#39;].unique().tolist()
+selected_categories = [category for category in categories if df[df[&#39;category&#39;] == category][&#39;state&#39;].nunique() == 2]
 
-<span class="c1"># Use the selected categories to subset the data</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">selected_categories</span><span class="p">)]</span>
+# Use the selected categories to subset the data
+df = df[df[&#39;category&#39;].isin(selected_categories)]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One-hot encode the columns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># One-hot encode the columns
 
-<span class="c1"># Select the columns to be encoded</span>
-<span class="n">onehot_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">]</span>
+# Select the columns to be encoded
+onehot_columns = [&#39;country&#39;, &#39;currency&#39;, &#39;category&#39;]
 
-<span class="c1"># One-hot encode columns one by one and then drop the main columns</span>
-<span class="c1"># Loop over selected columns</span>
-<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">onehot_columns</span><span class="p">:</span>
-    <span class="c1"># Onehot encode the columns</span>
-    <span class="n">onehot_array</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">column</span><span class="p">]],</span> <span class="n">prefix</span><span class="o">=</span><span class="n">column</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+# One-hot encode columns one by one and then drop the main columns
+# Loop over selected columns
+for column in onehot_columns:
+    # Onehot encode the columns
+    onehot_array = pd.get_dummies(df[[column]], prefix=column, drop_first=True)
     
-    <span class="c1"># Join the results with the main data</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">onehot_array</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    # Join the results with the main data
+    df = pd.concat([df, onehot_array], axis=1)
 
-    <span class="c1"># Drop the main column</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    # Drop the main column
+    df.drop(column, axis=1, inplace=True)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the data types of other required features to numerical type</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the data types of other required features to numerical type
 
-<span class="c1"># Convert boolean variables to numerical data</span>
-<span class="n">bool_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;disable_communication&#39;</span><span class="p">,</span> <span class="s1">&#39;currency_trailing_code&#39;</span><span class="p">,</span> <span class="s1">&#39;staff_pick&#39;</span><span class="p">,</span> <span class="s1">&#39;spotlight&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="n">bool_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">bool_cols</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+# Convert boolean variables to numerical data
+bool_cols = [&#39;disable_communication&#39;, &#39;currency_trailing_code&#39;, &#39;staff_pick&#39;, &#39;spotlight&#39;]
+df[bool_cols] = df[bool_cols].astype(int)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the target variable to numeric feature</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="s1">&#39;successful&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;failed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the target variable to numeric feature
+df[&#39;state&#39;] = df[&#39;state&#39;].replace({&#39;successful&#39;:1, &#39;failed&#39;: 0})
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The shape of the preprocesed data is: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> rows, </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columns&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;The shape of the preprocesed data is: {df.shape[0]} rows, {df.shape[1]} columns&quot;)
 </pre></div>
 </div>
 </div>
@@ -533,8 +533,8 @@ title="Print to PDF"
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the preprocessed data</span>
-<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./../../data/preprocessed.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the preprocessed data
+df.to_csv(&#39;./../../data/preprocessed.csv&#39;, index=False)
 </pre></div>
 </div>
 </div>
