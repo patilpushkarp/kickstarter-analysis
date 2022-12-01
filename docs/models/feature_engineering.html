@@ -167,6 +167,16 @@ const thebe_selector_output = ".output, .cell_output"
      Logistic Regression
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support_vector_machine.html">
+     Support Vector Machine
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neural_network.html">
+     Artificial Neural Network
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -399,7 +409,7 @@ title="Print to PDF"
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#feature-selection">
-   Feature selection
+   Feature Selection
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -433,7 +443,7 @@ title="Print to PDF"
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#feature-selection">
-   Feature selection
+   Feature Selection
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -643,7 +653,7 @@ memory usage: 8.5+ MB
 </div>
 </section>
 <section id="feature-selection">
-<h2>Feature selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">#</a></h2>
+<h2>Feature Selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">#</a></h2>
 <p>Since all the required columns are created or processed, total of 75 columns are created. This may increase the time of processing or the model might experience the curse of dimensionality. Hence it is necessary to only select the relevant columns. Thus, it may be better to drop off unnecessary columns.
 Also, the convergence of algorithms becomes difficult if the variance of a feature is less than 1%. Hence, features with less than 1% variance can also be removed. Features with less than 1% variance signify that not enough data is available for the model to fit the data.</p>
 <p>Columns that will be dropped are:</p>

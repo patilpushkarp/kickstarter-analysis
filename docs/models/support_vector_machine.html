@@ -1,0 +1,1614 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Support Vector Machine &#8212; Kickstarter Analysis</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Artificial Neural Network" href="neural_network.html" />
+    <link rel="prev" title="Logistic Regression" href="logistic_regression.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Kickstarter Analysis</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Crowdfunding Analysis using Kickstarter
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../about.html">
+   About
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../eda/eda.html">
+   Exploratory Data Analysis
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../eda/univariate_analysis.html">
+     Univariate Analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../eda/multivariate_analysis.html">
+     Multivariate Analysis
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing.html">
+   Data Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="feature_engineering.html">
+   Feature Engineering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_augmentation.html">
+   Data Augmentation
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="models.html">
+   Models
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="logistic_regression.html">
+     Logistic Regression
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Support Vector Machine
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neural_network.html">
+     Artificial Neural Network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../extras.html">
+   Extras
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../references.html">
+     References
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/patilpushkarp/kickstarter-analysis/main?urlpath=tree/docs/docs/models/support_vector_machine.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/patilpushkarp/kickstarter-analysis"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/patilpushkarp/kickstarter-analysis/issues/new?title=Issue%20on%20page%20%2Fdocs/models/support_vector_machine.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/docs/models/support_vector_machine.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-without-oversample-data">
+   Model without oversample data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-building">
+     Model Building
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inferencing">
+     Inferencing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluation">
+     Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-with-oversample-data">
+   Model with oversample data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Model Building
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Inferencing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Support Vector Machine</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-without-oversample-data">
+   Model without oversample data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-building">
+     Model Building
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inferencing">
+     Inferencing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluation">
+     Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-with-oversample-data">
+   Model with oversample data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Model Building
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Inferencing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="support-vector-machine">
+<h1>Support Vector Machine<a class="headerlink" href="#support-vector-machine" title="Permalink to this headline">#</a></h1>
+<p>Support vector machine or SVM is another one of the most widely used algorithm for classification.</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Import necessary packages
+import pandas as pd
+import numpy as np
+import joblib
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import roc_auc_score, roc_curve, auc
+from sklearn.metrics import ConfusionMatrixDisplay
+import plotly.express as px
+import plotly.io as pio
+svg_renderer = pio.renderers[&quot;svg&quot;]
+svg_renderer.width = 800
+svg_renderer.height = 500
+pio.renderers.default = &quot;svg&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="model-without-oversample-data">
+<h2>Model without oversample data<a class="headerlink" href="#model-without-oversample-data" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
+df = pd.read_csv(&#39;./../../data/engineered_data.csv&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Drop the index column
+df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before modelinng the data, it is necessary to split the data into training and testing set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Split the data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axis=1), df[&#39;state&#39;], test_size=0.2, random_state=42)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="model-building">
+<h3>Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the SVM model without &#39;poly&#39; kernel
+svm_clf = SVC(probability=True, class_weight=&#39;balanced&#39;)
+
+# Declare the grid paramters to be searched
+svm_params = dict(
+    C = np.logspace(-4, 0, num=5),
+    kernel = [&#39;linear&#39;, &#39;rbf&#39;, &#39;sigmoid&#39;]
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># For training SVM without &#39;poly&#39; kernel
+
+# Declare the gridsearch object
+grid_search = GridSearchCV(svm_clf, svm_params, scoring=&#39;roc_auc&#39;, n_jobs=7, refit=True, cv=10, verbose=3)
+
+# Fit the model
+grid_result = grid_search.fit(X_train, y_train)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 10 folds for each of 15 candidates, totalling 150 fits
+[CV 4/10] END ..........C=0.0001, kernel=linear;, score=0.857 total time=  53.0s
+[CV 6/10] END ..........C=0.0001, kernel=linear;, score=0.863 total time=  53.8s
+[CV 2/10] END ..........C=0.0001, kernel=linear;, score=0.822 total time=  54.1s
+[CV 3/10] END ..........C=0.0001, kernel=linear;, score=0.852 total time=  54.4s
+[CV 1/10] END ..........C=0.0001, kernel=linear;, score=0.858 total time=  54.6s
+[CV 5/10] END ..........C=0.0001, kernel=linear;, score=0.863 total time=  54.8s
+[CV 7/10] END ..........C=0.0001, kernel=linear;, score=0.856 total time=  55.4s
+[CV 10/10] END .........C=0.0001, kernel=linear;, score=0.852 total time=  43.1s
+[CV 8/10] END ..........C=0.0001, kernel=linear;, score=0.848 total time=  44.1s
+[CV 9/10] END ..........C=0.0001, kernel=linear;, score=0.839 total time=  43.7s
+[CV 2/10] END .............C=0.0001, kernel=rbf;, score=0.513 total time=  58.6s
+[CV 1/10] END .............C=0.0001, kernel=rbf;, score=0.502 total time=  60.0s
+[CV 3/10] END .............C=0.0001, kernel=rbf;, score=0.533 total time=  59.6s
+[CV 4/10] END .............C=0.0001, kernel=rbf;, score=0.514 total time=  59.1s
+[CV 6/10] END .............C=0.0001, kernel=rbf;, score=0.527 total time=  56.9s
+[CV 5/10] END .............C=0.0001, kernel=rbf;, score=0.525 total time=  58.3s
+[CV 7/10] END .............C=0.0001, kernel=rbf;, score=0.520 total time=  59.3s
+[CV 1/10] END .........C=0.0001, kernel=sigmoid;, score=0.520 total time=  53.4s
+[CV 8/10] END .............C=0.0001, kernel=rbf;, score=0.513 total time=  55.2s
+[CV 10/10] END ............C=0.0001, kernel=rbf;, score=0.534 total time=  57.3s
+[CV 9/10] END .............C=0.0001, kernel=rbf;, score=0.535 total time=  59.7s
+[CV 2/10] END .........C=0.0001, kernel=sigmoid;, score=0.481 total time=  56.1s
+[CV 3/10] END .........C=0.0001, kernel=sigmoid;, score=0.555 total time=  56.8s
+[CV 4/10] END .........C=0.0001, kernel=sigmoid;, score=0.524 total time=  57.5s
+[CV 6/10] END .........C=0.0001, kernel=sigmoid;, score=0.485 total time=  55.8s
+[CV 5/10] END .........C=0.0001, kernel=sigmoid;, score=0.517 total time=  56.3s
+[CV 7/10] END .........C=0.0001, kernel=sigmoid;, score=0.521 total time=  57.1s
+[CV 8/10] END .........C=0.0001, kernel=sigmoid;, score=0.517 total time=  56.1s
+[CV 9/10] END .........C=0.0001, kernel=sigmoid;, score=0.510 total time=  58.0s
+[CV 10/10] END ........C=0.0001, kernel=sigmoid;, score=0.511 total time=  57.1s
+[CV 1/10] END ...........C=0.001, kernel=linear;, score=0.917 total time=  58.7s
+[CV 2/10] END ...........C=0.001, kernel=linear;, score=0.908 total time=  58.2s
+[CV 3/10] END ...........C=0.001, kernel=linear;, score=0.920 total time=  60.0s
+[CV 4/10] END ...........C=0.001, kernel=linear;, score=0.923 total time=  58.4s
+[CV 5/10] END ...........C=0.001, kernel=linear;, score=0.927 total time=  59.9s
+[CV 6/10] END ...........C=0.001, kernel=linear;, score=0.931 total time=  58.2s
+[CV 7/10] END ...........C=0.001, kernel=linear;, score=0.915 total time=  58.6s
+[CV 8/10] END ...........C=0.001, kernel=linear;, score=0.906 total time=  59.9s
+[CV 9/10] END ...........C=0.001, kernel=linear;, score=0.916 total time=  57.5s
+[CV 10/10] END ..........C=0.001, kernel=linear;, score=0.929 total time=  58.4s
+[CV 1/10] END ..............C=0.001, kernel=rbf;, score=0.502 total time= 1.0min
+[CV 2/10] END ..............C=0.001, kernel=rbf;, score=0.513 total time= 1.1min
+[CV 3/10] END ..............C=0.001, kernel=rbf;, score=0.533 total time=  59.5s
+[CV 4/10] END ..............C=0.001, kernel=rbf;, score=0.514 total time=  59.5s
+[CV 5/10] END ..............C=0.001, kernel=rbf;, score=0.525 total time= 1.0min
+[CV 6/10] END ..............C=0.001, kernel=rbf;, score=0.527 total time=  59.8s
+[CV 7/10] END ..............C=0.001, kernel=rbf;, score=0.520 total time= 1.0min
+[CV 8/10] END ..............C=0.001, kernel=rbf;, score=0.513 total time= 1.0min
+[CV 9/10] END ..............C=0.001, kernel=rbf;, score=0.535 total time= 1.0min
+[CV 1/10] END ..........C=0.001, kernel=sigmoid;, score=0.520 total time=  59.0s
+[CV 10/10] END .............C=0.001, kernel=rbf;, score=0.534 total time= 1.1min
+[CV 2/10] END ..........C=0.001, kernel=sigmoid;, score=0.481 total time=  58.7s
+[CV 3/10] END ..........C=0.001, kernel=sigmoid;, score=0.555 total time=  59.8s
+[CV 4/10] END ..........C=0.001, kernel=sigmoid;, score=0.524 total time=  59.2s
+[CV 5/10] END ..........C=0.001, kernel=sigmoid;, score=0.517 total time=  59.7s
+[CV 6/10] END ..........C=0.001, kernel=sigmoid;, score=0.485 total time=  58.5s
+[CV 7/10] END ..........C=0.001, kernel=sigmoid;, score=0.521 total time=  55.3s
+[CV 8/10] END ..........C=0.001, kernel=sigmoid;, score=0.517 total time=  55.8s
+[CV 9/10] END ..........C=0.001, kernel=sigmoid;, score=0.510 total time=  56.4s
+[CV 10/10] END .........C=0.001, kernel=sigmoid;, score=0.511 total time=  54.9s
+[CV 1/10] END ............C=0.01, kernel=linear;, score=0.938 total time= 2.3min
+[CV 2/10] END ............C=0.01, kernel=linear;, score=0.929 total time= 2.3min
+[CV 3/10] END ............C=0.01, kernel=linear;, score=0.940 total time= 2.3min
+[CV 4/10] END ............C=0.01, kernel=linear;, score=0.938 total time= 2.3min
+[CV 5/10] END ............C=0.01, kernel=linear;, score=0.941 total time= 2.3min
+[CV 6/10] END ............C=0.01, kernel=linear;, score=0.945 total time= 2.3min
+[CV 7/10] END ............C=0.01, kernel=linear;, score=0.930 total time= 2.3min
+[CV 1/10] END ...............C=0.01, kernel=rbf;, score=0.502 total time=  54.8s
+[CV 2/10] END ...............C=0.01, kernel=rbf;, score=0.514 total time=  54.4s
+[CV 3/10] END ...............C=0.01, kernel=rbf;, score=0.533 total time=  57.2s
+[CV 4/10] END ...............C=0.01, kernel=rbf;, score=0.514 total time=  56.5s
+[CV 8/10] END ............C=0.01, kernel=linear;, score=0.931 total time= 2.3min
+[CV 9/10] END ............C=0.01, kernel=linear;, score=0.935 total time= 2.2min
+[CV 10/10] END ...........C=0.01, kernel=linear;, score=0.951 total time= 2.3min
+[CV 5/10] END ...............C=0.01, kernel=rbf;, score=0.525 total time=  56.4s
+[CV 6/10] END ...............C=0.01, kernel=rbf;, score=0.527 total time=  56.2s
+[CV 7/10] END ...............C=0.01, kernel=rbf;, score=0.520 total time=  57.0s
+[CV 8/10] END ...............C=0.01, kernel=rbf;, score=0.513 total time=  58.3s
+[CV 9/10] END ...............C=0.01, kernel=rbf;, score=0.535 total time= 1.1min
+[CV 10/10] END ..............C=0.01, kernel=rbf;, score=0.533 total time= 1.1min
+[CV 1/10] END ...........C=0.01, kernel=sigmoid;, score=0.530 total time= 1.0min
+[CV 2/10] END ...........C=0.01, kernel=sigmoid;, score=0.508 total time= 1.0min
+[CV 3/10] END ...........C=0.01, kernel=sigmoid;, score=0.503 total time= 1.0min
+[CV 4/10] END ...........C=0.01, kernel=sigmoid;, score=0.493 total time= 1.0min
+[CV 5/10] END ...........C=0.01, kernel=sigmoid;, score=0.521 total time=  59.5s
+[CV 7/10] END ...........C=0.01, kernel=sigmoid;, score=0.513 total time=  57.4s
+[CV 6/10] END ...........C=0.01, kernel=sigmoid;, score=0.494 total time=  58.0s
+[CV 9/10] END ...........C=0.01, kernel=sigmoid;, score=0.468 total time=  55.7s
+[CV 8/10] END ...........C=0.01, kernel=sigmoid;, score=0.490 total time=  57.9s
+[CV 10/10] END ..........C=0.01, kernel=sigmoid;, score=0.518 total time=  56.6s
+[CV 2/10] END .............C=0.1, kernel=linear;, score=0.939 total time= 9.9min
+[CV 1/10] END .............C=0.1, kernel=linear;, score=0.949 total time=10.1min
+[CV 3/10] END .............C=0.1, kernel=linear;, score=0.951 total time=10.0min
+[CV 5/10] END .............C=0.1, kernel=linear;, score=0.952 total time=10.0min
+[CV 6/10] END .............C=0.1, kernel=linear;, score=0.955 total time=10.0min
+[CV 4/10] END .............C=0.1, kernel=linear;, score=0.946 total time=10.3min
+[CV 7/10] END .............C=0.1, kernel=linear;, score=0.939 total time=10.5min
+[CV 1/10] END ................C=0.1, kernel=rbf;, score=0.516 total time=  51.0s
+[CV 2/10] END ................C=0.1, kernel=rbf;, score=0.531 total time=  52.0s
+[CV 3/10] END ................C=0.1, kernel=rbf;, score=0.545 total time=  52.3s
+[CV 4/10] END ................C=0.1, kernel=rbf;, score=0.529 total time=  52.7s
+[CV 5/10] END ................C=0.1, kernel=rbf;, score=0.540 total time=  54.7s
+[CV 6/10] END ................C=0.1, kernel=rbf;, score=0.538 total time=  56.0s
+[CV 7/10] END ................C=0.1, kernel=rbf;, score=0.540 total time=  54.8s
+[CV 8/10] END ................C=0.1, kernel=rbf;, score=0.543 total time=  53.5s
+[CV 1/10] END ............C=0.1, kernel=sigmoid;, score=0.514 total time=  39.8s
+[CV 9/10] END ................C=0.1, kernel=rbf;, score=0.555 total time=  55.7s
+[CV 10/10] END ...............C=0.1, kernel=rbf;, score=0.548 total time=  55.7s
+[CV 2/10] END ............C=0.1, kernel=sigmoid;, score=0.501 total time=  41.0s
+[CV 3/10] END ............C=0.1, kernel=sigmoid;, score=0.487 total time=  39.3s
+[CV 4/10] END ............C=0.1, kernel=sigmoid;, score=0.509 total time=  41.3s
+[CV 5/10] END ............C=0.1, kernel=sigmoid;, score=0.523 total time=  41.0s
+[CV 6/10] END ............C=0.1, kernel=sigmoid;, score=0.487 total time=  42.7s
+[CV 7/10] END ............C=0.1, kernel=sigmoid;, score=0.505 total time=  42.5s
+[CV 8/10] END ............C=0.1, kernel=sigmoid;, score=0.498 total time=  38.9s
+[CV 9/10] END ............C=0.1, kernel=sigmoid;, score=0.468 total time=  40.6s
+[CV 10/10] END ...........C=0.1, kernel=sigmoid;, score=0.519 total time=  39.9s
+[CV 9/10] END .............C=0.1, kernel=linear;, score=0.942 total time=10.0min
+[CV 8/10] END .............C=0.1, kernel=linear;, score=0.943 total time=10.7min
+[CV 10/10] END ............C=0.1, kernel=linear;, score=0.959 total time=10.2min
+[CV 3/10] END .............C=1.0, kernel=linear;, score=0.953 total time=94.5min
+[CV 2/10] END .............C=1.0, kernel=linear;, score=0.941 total time=95.4min
+[CV 4/10] END .............C=1.0, kernel=linear;, score=0.947 total time=95.8min
+[CV 6/10] END .............C=1.0, kernel=linear;, score=0.958 total time=94.4min
+[CV 1/10] END ............C=1.0, kernel=linear;, score=0.951 total time=101.1min
+[CV 1/10] END ................C=1.0, kernel=rbf;, score=0.583 total time= 1.1min
+[CV 2/10] END ................C=1.0, kernel=rbf;, score=0.594 total time= 1.1min
+[CV 3/10] END ................C=1.0, kernel=rbf;, score=0.614 total time= 1.1min
+[CV 4/10] END ................C=1.0, kernel=rbf;, score=0.618 total time= 1.1min
+[CV 5/10] END ................C=1.0, kernel=rbf;, score=0.634 total time= 1.1min
+[CV 6/10] END ................C=1.0, kernel=rbf;, score=0.627 total time= 1.1min
+[CV 7/10] END ................C=1.0, kernel=rbf;, score=0.618 total time= 1.2min
+[CV 8/10] END ................C=1.0, kernel=rbf;, score=0.632 total time= 1.2min
+[CV 9/10] END ................C=1.0, kernel=rbf;, score=0.624 total time= 1.2min
+[CV 1/10] END ............C=1.0, kernel=sigmoid;, score=0.514 total time=  46.5s
+[CV 5/10] END ............C=1.0, kernel=linear;, score=0.956 total time=101.4min
+[CV 10/10] END ...............C=1.0, kernel=rbf;, score=0.618 total time= 1.2min
+[CV 2/10] END ............C=1.0, kernel=sigmoid;, score=0.501 total time=  46.9s
+[CV 4/10] END ............C=1.0, kernel=sigmoid;, score=0.509 total time=  46.8s
+[CV 3/10] END ............C=1.0, kernel=sigmoid;, score=0.487 total time=  48.1s
+[CV 7/10] END ............C=1.0, kernel=linear;, score=0.943 total time=101.8min
+[CV 5/10] END ............C=1.0, kernel=sigmoid;, score=0.523 total time=  50.7s
+[CV 7/10] END ............C=1.0, kernel=sigmoid;, score=0.504 total time=  47.7s
+[CV 6/10] END ............C=1.0, kernel=sigmoid;, score=0.487 total time=  49.3s
+[CV 8/10] END ............C=1.0, kernel=sigmoid;, score=0.498 total time=  45.6s
+[CV 9/10] END ............C=1.0, kernel=sigmoid;, score=0.468 total time=  41.2s
+[CV 10/10] END ...........C=1.0, kernel=sigmoid;, score=0.518 total time=  36.8s
+[CV 9/10] END .............C=1.0, kernel=linear;, score=0.944 total time=63.4min
+[CV 8/10] END .............C=1.0, kernel=linear;, score=0.948 total time=64.4min
+[CV 10/10] END ............C=1.0, kernel=linear;, score=0.961 total time=65.8min
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the SVM model with &#39;poly&#39; kernel
+svm_clf_poly = SVC(probability=True, class_weight=&#39;balanced&#39;, kernel=&#39;poly&#39;)
+
+# Declare the grid paramters to be searched
+svm_params_poly = dict(
+    C = np.logspace(-4, 0, num=5),
+    degree = [2, 3, 4]
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># For training SVM without &#39;poly&#39; kernel
+
+# Declare the gridsearch object
+grid_search_poly = GridSearchCV(svm_clf_poly, svm_params_poly, scoring=&#39;roc_auc&#39;, n_jobs=7, refit=True, cv=10, verbose=5)
+
+# Fit the model
+grid_result_poly = grid_search_poly.fit(X_train, y_train)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 10 folds for each of 15 candidates, totalling 150 fits
+[CV 7/10] END ...............C=0.0001, degree=2;, score=0.496 total time= 2.3min
+[CV 5/10] END ...............C=0.0001, degree=2;, score=0.520 total time= 2.4min
+[CV 6/10] END ...............C=0.0001, degree=2;, score=0.508 total time= 2.4min
+[CV 3/10] END ...............C=0.0001, degree=2;, score=0.519 total time= 2.4min
+[CV 4/10] END ...............C=0.0001, degree=2;, score=0.497 total time= 2.4min
+[CV 2/10] END ...............C=0.0001, degree=2;, score=0.488 total time= 2.4min
+[CV 1/10] END ...............C=0.0001, degree=2;, score=0.505 total time= 2.4min
+[CV 9/10] END ...............C=0.0001, degree=2;, score=0.525 total time= 2.3min
+[CV 8/10] END ...............C=0.0001, degree=2;, score=0.479 total time= 2.3min
+[CV 1/10] END ...............C=0.0001, degree=3;, score=0.496 total time= 2.3min
+[CV 10/10] END ..............C=0.0001, degree=2;, score=0.472 total time= 2.3min
+[CV 4/10] END ...............C=0.0001, degree=3;, score=0.503 total time= 2.3min
+[CV 3/10] END ...............C=0.0001, degree=3;, score=0.514 total time= 2.3min
+[CV 2/10] END ...............C=0.0001, degree=3;, score=0.497 total time= 2.4min
+[CV 5/10] END ...............C=0.0001, degree=3;, score=0.495 total time= 2.2min
+[CV 6/10] END ...............C=0.0001, degree=3;, score=0.510 total time= 2.2min
+[CV 8/10] END ...............C=0.0001, degree=3;, score=0.512 total time= 2.2min
+[CV 10/10] END ..............C=0.0001, degree=3;, score=0.518 total time= 2.1min
+[CV 1/10] END ...............C=0.0001, degree=4;, score=0.475 total time= 2.2min
+[CV 9/10] END ...............C=0.0001, degree=3;, score=0.519 total time= 2.2min
+[CV 7/10] END ...............C=0.0001, degree=3;, score=0.540 total time= 2.2min
+[CV 3/10] END ...............C=0.0001, degree=4;, score=0.513 total time= 2.1min
+[CV 2/10] END ...............C=0.0001, degree=4;, score=0.463 total time= 2.1min
+[CV 5/10] END ...............C=0.0001, degree=4;, score=0.491 total time= 2.1min
+[CV 4/10] END ...............C=0.0001, degree=4;, score=0.498 total time= 2.2min
+[CV 7/10] END ...............C=0.0001, degree=4;, score=0.512 total time= 2.1min
+[CV 8/10] END ...............C=0.0001, degree=4;, score=0.484 total time= 2.1min
+[CV 6/10] END ...............C=0.0001, degree=4;, score=0.475 total time= 2.1min
+[CV 9/10] END ...............C=0.0001, degree=4;, score=0.505 total time= 2.1min
+[CV 10/10] END ..............C=0.0001, degree=4;, score=0.500 total time= 2.1min
+[CV 1/10] END ................C=0.001, degree=2;, score=0.499 total time= 2.1min
+[CV 2/10] END ................C=0.001, degree=2;, score=0.485 total time= 2.1min
+[CV 4/10] END ................C=0.001, degree=2;, score=0.492 total time= 2.1min
+[CV 5/10] END ................C=0.001, degree=2;, score=0.521 total time= 2.1min
+[CV 3/10] END ................C=0.001, degree=2;, score=0.527 total time= 2.1min
+[CV 7/10] END ................C=0.001, degree=2;, score=0.513 total time= 2.3min
+[CV 6/10] END ................C=0.001, degree=2;, score=0.504 total time= 2.3min
+[CV 9/10] END ................C=0.001, degree=2;, score=0.507 total time= 2.3min
+[CV 8/10] END ................C=0.001, degree=2;, score=0.500 total time= 2.3min
+[CV 10/10] END ...............C=0.001, degree=2;, score=0.481 total time= 2.3min
+[CV 1/10] END ................C=0.001, degree=3;, score=0.495 total time= 2.3min
+[CV 2/10] END ................C=0.001, degree=3;, score=0.479 total time= 2.4min
+[CV 3/10] END ................C=0.001, degree=3;, score=0.505 total time= 2.3min
+[CV 5/10] END ................C=0.001, degree=3;, score=0.480 total time= 2.3min
+[CV 4/10] END ................C=0.001, degree=3;, score=0.498 total time= 2.4min
+[CV 6/10] END ................C=0.001, degree=3;, score=0.509 total time= 2.3min
+[CV 7/10] END ................C=0.001, degree=3;, score=0.532 total time= 2.3min
+[CV 8/10] END ................C=0.001, degree=3;, score=0.509 total time= 2.4min
+[CV 9/10] END ................C=0.001, degree=3;, score=0.520 total time= 2.3min
+[CV 10/10] END ...............C=0.001, degree=3;, score=0.517 total time= 2.4min
+[CV 1/10] END ................C=0.001, degree=4;, score=0.481 total time= 2.4min
+[CV 2/10] END ................C=0.001, degree=4;, score=0.482 total time= 2.3min
+[CV 4/10] END ................C=0.001, degree=4;, score=0.500 total time= 2.3min
+[CV 3/10] END ................C=0.001, degree=4;, score=0.510 total time= 2.4min
+[CV 5/10] END ................C=0.001, degree=4;, score=0.487 total time= 2.4min
+[CV 6/10] END ................C=0.001, degree=4;, score=0.479 total time= 2.4min
+[CV 7/10] END ................C=0.001, degree=4;, score=0.505 total time= 2.4min
+[CV 9/10] END ................C=0.001, degree=4;, score=0.506 total time= 2.4min
+[CV 10/10] END ...............C=0.001, degree=4;, score=0.513 total time= 2.4min
+[CV 1/10] END .................C=0.01, degree=2;, score=0.500 total time= 2.3min
+[CV 8/10] END ................C=0.001, degree=4;, score=0.501 total time= 2.4min
+[CV 2/10] END .................C=0.01, degree=2;, score=0.479 total time= 2.4min
+[CV 3/10] END .................C=0.01, degree=2;, score=0.524 total time= 2.4min
+[CV 4/10] END .................C=0.01, degree=2;, score=0.499 total time= 2.3min
+[CV 6/10] END .................C=0.01, degree=2;, score=0.504 total time= 2.2min
+[CV 5/10] END .................C=0.01, degree=2;, score=0.510 total time= 2.2min
+[CV 7/10] END .................C=0.01, degree=2;, score=0.522 total time= 2.2min
+[CV 8/10] END .................C=0.01, degree=2;, score=0.517 total time= 2.2min
+[CV 9/10] END .................C=0.01, degree=2;, score=0.505 total time= 2.2min
+[CV 10/10] END ................C=0.01, degree=2;, score=0.483 total time= 2.2min
+[CV 2/10] END .................C=0.01, degree=3;, score=0.505 total time= 2.2min
+[CV 1/10] END .................C=0.01, degree=3;, score=0.533 total time= 2.2min
+[CV 4/10] END .................C=0.01, degree=3;, score=0.540 total time= 2.2min
+[CV 5/10] END .................C=0.01, degree=3;, score=0.512 total time= 2.2min
+[CV 3/10] END .................C=0.01, degree=3;, score=0.528 total time= 2.3min
+[CV 6/10] END .................C=0.01, degree=3;, score=0.533 total time= 2.2min
+[CV 7/10] END .................C=0.01, degree=3;, score=0.554 total time= 2.2min
+[CV 9/10] END .................C=0.01, degree=3;, score=0.543 total time= 2.1min
+[CV 8/10] END .................C=0.01, degree=3;, score=0.529 total time= 2.2min
+[CV 10/10] END ................C=0.01, degree=3;, score=0.535 total time= 2.2min
+[CV 1/10] END .................C=0.01, degree=4;, score=0.537 total time= 2.3min
+[CV 2/10] END .................C=0.01, degree=4;, score=0.530 total time= 2.3min
+[CV 3/10] END .................C=0.01, degree=4;, score=0.558 total time= 2.2min
+[CV 4/10] END .................C=0.01, degree=4;, score=0.546 total time= 2.3min
+[CV 5/10] END .................C=0.01, degree=4;, score=0.553 total time= 2.2min
+[CV 6/10] END .................C=0.01, degree=4;, score=0.536 total time= 2.3min
+[CV 7/10] END .................C=0.01, degree=4;, score=0.561 total time= 2.3min
+[CV 10/10] END ................C=0.01, degree=4;, score=0.561 total time= 2.2min
+[CV 8/10] END .................C=0.01, degree=4;, score=0.541 total time= 2.3min
+[CV 9/10] END .................C=0.01, degree=4;, score=0.562 total time= 2.3min
+[CV 1/10] END ..................C=0.1, degree=2;, score=0.524 total time= 2.2min
+[CV 2/10] END ..................C=0.1, degree=2;, score=0.500 total time= 2.2min
+[CV 3/10] END ..................C=0.1, degree=2;, score=0.551 total time= 2.2min
+[CV 4/10] END ..................C=0.1, degree=2;, score=0.517 total time= 2.3min
+[CV 5/10] END ..................C=0.1, degree=2;, score=0.538 total time= 2.2min
+[CV 7/10] END ..................C=0.1, degree=2;, score=0.552 total time= 2.2min
+[CV 6/10] END ..................C=0.1, degree=2;, score=0.531 total time= 2.3min
+[CV 8/10] END ..................C=0.1, degree=2;, score=0.545 total time= 2.2min
+[CV 9/10] END ..................C=0.1, degree=2;, score=0.538 total time= 2.2min
+[CV 10/10] END .................C=0.1, degree=2;, score=0.511 total time= 2.2min
+[CV 2/10] END ..................C=0.1, degree=3;, score=0.686 total time= 2.3min
+[CV 1/10] END ..................C=0.1, degree=3;, score=0.698 total time= 2.3min
+[CV 3/10] END ..................C=0.1, degree=3;, score=0.705 total time= 2.3min
+[CV 5/10] END ..................C=0.1, degree=3;, score=0.697 total time= 2.3min
+[CV 4/10] END ..................C=0.1, degree=3;, score=0.707 total time= 2.3min
+[CV 7/10] END ..................C=0.1, degree=3;, score=0.739 total time= 2.2min
+[CV 6/10] END ..................C=0.1, degree=3;, score=0.712 total time= 2.2min
+[CV 8/10] END ..................C=0.1, degree=3;, score=0.713 total time= 2.2min
+[CV 9/10] END ..................C=0.1, degree=3;, score=0.719 total time= 2.2min
+[CV 10/10] END .................C=0.1, degree=3;, score=0.706 total time= 2.2min
+[CV 2/10] END ..................C=0.1, degree=4;, score=0.635 total time= 2.3min
+[CV 1/10] END ..................C=0.1, degree=4;, score=0.673 total time= 2.5min
+[CV 3/10] END ..................C=0.1, degree=4;, score=0.630 total time= 2.2min
+[CV 4/10] END ..................C=0.1, degree=4;, score=0.630 total time= 2.4min
+[CV 6/10] END ..................C=0.1, degree=4;, score=0.678 total time= 2.2min
+[CV 5/10] END ..................C=0.1, degree=4;, score=0.661 total time= 2.3min
+[CV 7/10] END ..................C=0.1, degree=4;, score=0.673 total time= 2.3min
+[CV 8/10] END ..................C=0.1, degree=4;, score=0.632 total time= 2.3min
+[CV 9/10] END ..................C=0.1, degree=4;, score=0.672 total time= 2.4min
+[CV 1/10] END ..................C=1.0, degree=2;, score=0.652 total time= 2.1min
+[CV 10/10] END .................C=0.1, degree=4;, score=0.671 total time= 2.3min
+[CV 2/10] END ..................C=1.0, degree=2;, score=0.616 total time= 2.1min
+[CV 3/10] END ..................C=1.0, degree=2;, score=0.637 total time= 2.1min
+[CV 4/10] END ..................C=1.0, degree=2;, score=0.606 total time= 2.2min
+[CV 5/10] END ..................C=1.0, degree=2;, score=0.640 total time= 2.1min
+[CV 6/10] END ..................C=1.0, degree=2;, score=0.649 total time= 2.2min
+[CV 7/10] END ..................C=1.0, degree=2;, score=0.678 total time= 2.2min
+[CV 8/10] END ..................C=1.0, degree=2;, score=0.636 total time= 2.1min
+[CV 9/10] END ..................C=1.0, degree=2;, score=0.643 total time= 2.1min
+[CV 10/10] END .................C=1.0, degree=2;, score=0.641 total time= 2.2min
+[CV 1/10] END ..................C=1.0, degree=3;, score=0.861 total time= 2.4min
+[CV 2/10] END ..................C=1.0, degree=3;, score=0.856 total time= 2.3min
+[CV 3/10] END ..................C=1.0, degree=3;, score=0.844 total time= 2.3min
+[CV 4/10] END ..................C=1.0, degree=3;, score=0.836 total time= 2.3min
+[CV 5/10] END ..................C=1.0, degree=3;, score=0.852 total time= 2.3min
+[CV 6/10] END ..................C=1.0, degree=3;, score=0.853 total time= 2.3min
+[CV 7/10] END ..................C=1.0, degree=3;, score=0.860 total time= 2.3min
+[CV 8/10] END ..................C=1.0, degree=3;, score=0.854 total time= 2.3min
+[CV 9/10] END ..................C=1.0, degree=3;, score=0.862 total time= 2.3min
+[CV 10/10] END .................C=1.0, degree=3;, score=0.845 total time= 2.3min
+[CV 2/10] END ..................C=1.0, degree=4;, score=0.673 total time= 2.5min
+[CV 1/10] END ..................C=1.0, degree=4;, score=0.698 total time= 2.6min
+[CV 3/10] END ..................C=1.0, degree=4;, score=0.665 total time= 2.6min
+[CV 4/10] END ..................C=1.0, degree=4;, score=0.660 total time= 2.5min
+[CV 6/10] END ..................C=1.0, degree=4;, score=0.715 total time= 2.6min
+[CV 5/10] END ..................C=1.0, degree=4;, score=0.673 total time= 2.7min
+[CV 7/10] END ..................C=1.0, degree=4;, score=0.703 total time= 2.5min
+[CV 8/10] END ..................C=1.0, degree=4;, score=0.662 total time= 1.7min
+[CV 10/10] END .................C=1.0, degree=4;, score=0.692 total time= 1.6min
+[CV 9/10] END ..................C=1.0, degree=4;, score=0.689 total time= 1.8min
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="inferencing">
+<h3>Inferencing<a class="headerlink" href="#inferencing" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the best model parameters
+print(f&quot;Best score of {grid_result.best_score_} is achieved by using {grid_result.best_params_}&quot;)
+print(f&quot;Best score of {grid_result_poly.best_score_} is achieved by using {grid_result_poly.best_params_}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best score of 0.9582827048948805 is achieved by using {&#39;C&#39;: 1.0, &#39;kernel&#39;: &#39;linear&#39;}
+Best score of 0.8522176297737245 is achieved by using {&#39;C&#39;: 1.0, &#39;degree&#39;: 3}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Predict on test data using the model
+y_pred = grid_search.predict(X_test)
+y_score = grid_search.predict_proba(X_test)[:, 1]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation">
+<h3>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the ROC AUC score
+print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Area under the ROC curve: 0.9472100846919147
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate parameters for roc auc curve
+fpr, tpr, thresholds = roc_curve(y_test, y_score)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the curve and area under the curve
+fig = px.area(
+    x=fpr, y=tpr,
+    title=f&#39;ROC Curve (AUC={auc(fpr, tpr):.4f})&#39;,
+    labels=dict(x=&#39;False Positive Rate&#39;, y=&#39;True Positive Rate&#39;)
+)
+fig.add_shape(
+    type=&#39;line&#39;, line=dict(dash=&#39;dash&#39;),
+    x0=0, x1=1, y0=0, y1=1
+)
+
+fig.update_yaxes(scaleanchor=&quot;x&quot;, scaleratio=1)
+fig.update_xaxes(constrain=&#39;domain&#39;)
+fig.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/support_vector_machine_19_0.svg" src="../../_images/support_vector_machine_19_0.svg" /></div>
+</div>
+<p>An AUC score of 0.88 is quite remarkable and it suggest that model is quite good in predicting whether a project on Kickstarter will be succecssful or not.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a ROC dataframe from the obtained FPR and TPR
+roc_df = pd.DataFrame({
+    &#39;fpr&#39;: fpr,
+    &#39;tpr&#39;: tpr,
+    &#39;threshold&#39;: thresholds
+})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the values of threshold for true positive rate between 0.79 and 0.81
+roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fpr</th>
+      <th>tpr</th>
+      <th>threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>184</th>
+      <td>0.049618</td>
+      <td>0.793615</td>
+      <td>0.515917</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>0.050095</td>
+      <td>0.793615</td>
+      <td>0.513528</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>0.050095</td>
+      <td>0.795895</td>
+      <td>0.511968</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>0.051050</td>
+      <td>0.795895</td>
+      <td>0.511324</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>0.051050</td>
+      <td>0.799316</td>
+      <td>0.510062</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>0.051527</td>
+      <td>0.799316</td>
+      <td>0.508657</td>
+    </tr>
+    <tr>
+      <th>190</th>
+      <td>0.051527</td>
+      <td>0.800456</td>
+      <td>0.508389</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>0.052481</td>
+      <td>0.800456</td>
+      <td>0.507243</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>0.052481</td>
+      <td>0.801596</td>
+      <td>0.506943</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>From the above table, it is safe to assume the threshold value of 0.5 for classifying the observations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the confusion matrix
+ConfusionMatrixDisplay.from_estimator(grid_result, X_test, y_test)  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x12c7b8610&gt;
+</pre></div>
+</div>
+<img alt="../../_images/support_vector_machine_24_1.png" src="../../_images/support_vector_machine_24_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
+joblib.dump(grid_result, &#39;./../../data/models/svm.pkl&#39;)
+joblib.dump(grid_result_poly, &#39;./../../data/models/svm_poly.pkl&#39;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;./../../data/models/svm_poly.pkl&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="model-with-oversample-data">
+<h2>Model with oversample data<a class="headerlink" href="#model-with-oversample-data" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
+df = pd.read_csv(&#39;./../../data/engineered_data_oversampled.csv&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Drop the index column
+df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Split the data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axis=1), df[&#39;state&#39;], test_size=0.2, random_state=42)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3>Model Building<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the SVM model
+svm_clf = SVC(probability=True, class_weight=&#39;balanced&#39;)
+
+# Declare the grid paramters to be searched
+svm_params = dict(
+    C = np.logspace(-3, 0, num=4),
+    kernel = [&#39;linear&#39;, &#39;rbf&#39;, &#39;sigmoid&#39;]
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the gridsearch object
+grid_search = GridSearchCV(svm_clf, svm_params, scoring=&#39;roc_auc&#39;, n_jobs=7, refit=True, cv=10, verbose=5)
+
+# Fit the model
+grid_result = grid_search.fit(X_train, y_train)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 10 folds for each of 12 candidates, totalling 120 fits
+[CV 5/10] END ...........C=0.001, kernel=linear;, score=0.934 total time= 2.3min
+[CV 7/10] END ...........C=0.001, kernel=linear;, score=0.936 total time= 2.4min
+[CV 2/10] END ...........C=0.001, kernel=linear;, score=0.938 total time= 2.4min
+[CV 6/10] END ...........C=0.001, kernel=linear;, score=0.935 total time= 2.4min
+[CV 4/10] END ...........C=0.001, kernel=linear;, score=0.919 total time= 2.5min
+[CV 3/10] END ...........C=0.001, kernel=linear;, score=0.935 total time= 2.5min
+[CV 1/10] END ...........C=0.001, kernel=linear;, score=0.943 total time= 2.5min
+[CV 8/10] END ...........C=0.001, kernel=linear;, score=0.935 total time= 2.6min
+[CV 9/10] END ...........C=0.001, kernel=linear;, score=0.940 total time= 2.6min
+[CV 10/10] END ..........C=0.001, kernel=linear;, score=0.941 total time= 2.7min
+[CV 1/10] END ..............C=0.001, kernel=rbf;, score=0.524 total time= 3.4min
+[CV 3/10] END ..............C=0.001, kernel=rbf;, score=0.509 total time= 3.3min
+[CV 2/10] END ..............C=0.001, kernel=rbf;, score=0.527 total time= 3.4min
+[CV 4/10] END ..............C=0.001, kernel=rbf;, score=0.498 total time= 3.4min
+[CV 5/10] END ..............C=0.001, kernel=rbf;, score=0.509 total time= 3.3min
+[CV 6/10] END ..............C=0.001, kernel=rbf;, score=0.546 total time= 3.3min
+[CV 7/10] END ..............C=0.001, kernel=rbf;, score=0.516 total time= 3.3min
+[CV 1/10] END ..........C=0.001, kernel=sigmoid;, score=0.498 total time= 3.0min
+[CV 8/10] END ..............C=0.001, kernel=rbf;, score=0.519 total time= 3.3min
+[CV 10/10] END .............C=0.001, kernel=rbf;, score=0.501 total time= 3.4min
+[CV 9/10] END ..............C=0.001, kernel=rbf;, score=0.512 total time= 3.4min
+[CV 2/10] END ..........C=0.001, kernel=sigmoid;, score=0.499 total time= 3.2min
+[CV 3/10] END ..........C=0.001, kernel=sigmoid;, score=0.514 total time= 3.2min
+[CV 4/10] END ..........C=0.001, kernel=sigmoid;, score=0.509 total time= 3.2min
+[CV 5/10] END ..........C=0.001, kernel=sigmoid;, score=0.488 total time= 3.2min
+[CV 6/10] END ..........C=0.001, kernel=sigmoid;, score=0.523 total time= 3.2min
+[CV 8/10] END ..........C=0.001, kernel=sigmoid;, score=0.519 total time= 3.2min
+[CV 7/10] END ..........C=0.001, kernel=sigmoid;, score=0.544 total time= 3.2min
+[CV 9/10] END ..........C=0.001, kernel=sigmoid;, score=0.513 total time= 2.6min
+[CV 10/10] END .........C=0.001, kernel=sigmoid;, score=0.524 total time= 2.6min
+[CV 1/10] END ............C=0.01, kernel=linear;, score=0.957 total time= 5.6min
+[CV 2/10] END ............C=0.01, kernel=linear;, score=0.949 total time= 5.6min
+[CV 5/10] END ............C=0.01, kernel=linear;, score=0.946 total time= 5.5min
+[CV 3/10] END ............C=0.01, kernel=linear;, score=0.953 total time= 5.6min
+[CV 4/10] END ............C=0.01, kernel=linear;, score=0.938 total time= 5.6min
+[CV 6/10] END ............C=0.01, kernel=linear;, score=0.948 total time= 5.3min
+[CV 7/10] END ............C=0.01, kernel=linear;, score=0.949 total time= 5.5min
+[CV 1/10] END ...............C=0.01, kernel=rbf;, score=0.525 total time= 2.5min
+[CV 2/10] END ...............C=0.01, kernel=rbf;, score=0.527 total time= 2.6min
+[CV 3/10] END ...............C=0.01, kernel=rbf;, score=0.510 total time= 2.7min
+[CV 4/10] END ...............C=0.01, kernel=rbf;, score=0.498 total time= 2.8min
+[CV 8/10] END ............C=0.01, kernel=linear;, score=0.948 total time= 5.5min
+[CV 9/10] END ............C=0.01, kernel=linear;, score=0.952 total time= 5.4min
+[CV 5/10] END ...............C=0.01, kernel=rbf;, score=0.509 total time= 2.8min
+[CV 6/10] END ...............C=0.01, kernel=rbf;, score=0.546 total time= 2.8min
+[CV 10/10] END ...........C=0.01, kernel=linear;, score=0.955 total time= 5.6min
+[CV 7/10] END ...............C=0.01, kernel=rbf;, score=0.516 total time= 3.1min
+[CV 8/10] END ...............C=0.01, kernel=rbf;, score=0.520 total time= 3.2min
+[CV 2/10] END ...........C=0.01, kernel=sigmoid;, score=0.500 total time= 2.7min
+[CV 9/10] END ...............C=0.01, kernel=rbf;, score=0.513 total time= 3.3min
+[CV 1/10] END ...........C=0.01, kernel=sigmoid;, score=0.499 total time= 2.8min
+[CV 3/10] END ...........C=0.01, kernel=sigmoid;, score=0.472 total time= 2.8min
+[CV 10/10] END ..............C=0.01, kernel=rbf;, score=0.501 total time= 3.4min
+[CV 4/10] END ...........C=0.01, kernel=sigmoid;, score=0.476 total time= 2.9min
+[CV 5/10] END ...........C=0.01, kernel=sigmoid;, score=0.481 total time= 2.9min
+[CV 6/10] END ...........C=0.01, kernel=sigmoid;, score=0.521 total time= 2.9min
+[CV 7/10] END ...........C=0.01, kernel=sigmoid;, score=0.499 total time= 2.9min
+[CV 8/10] END ...........C=0.01, kernel=sigmoid;, score=0.504 total time= 3.0min
+[CV 9/10] END ...........C=0.01, kernel=sigmoid;, score=0.501 total time= 2.9min
+[CV 10/10] END ..........C=0.01, kernel=sigmoid;, score=0.495 total time= 2.8min
+[CV 1/10] END .............C=0.1, kernel=linear;, score=0.964 total time=21.7min
+[CV 4/10] END .............C=0.1, kernel=linear;, score=0.947 total time=21.2min
+[CV 3/10] END .............C=0.1, kernel=linear;, score=0.961 total time=21.5min
+[CV 5/10] END .............C=0.1, kernel=linear;, score=0.952 total time=21.5min
+[CV 6/10] END .............C=0.1, kernel=linear;, score=0.953 total time=21.5min
+[CV 2/10] END .............C=0.1, kernel=linear;, score=0.958 total time=22.4min
+[CV 7/10] END .............C=0.1, kernel=linear;, score=0.958 total time=22.6min
+[CV 1/10] END ................C=0.1, kernel=rbf;, score=0.563 total time= 2.4min
+[CV 2/10] END ................C=0.1, kernel=rbf;, score=0.552 total time= 2.4min
+[CV 3/10] END ................C=0.1, kernel=rbf;, score=0.542 total time= 2.4min
+[CV 4/10] END ................C=0.1, kernel=rbf;, score=0.515 total time= 2.6min
+[CV 5/10] END ................C=0.1, kernel=rbf;, score=0.544 total time= 2.6min
+[CV 6/10] END ................C=0.1, kernel=rbf;, score=0.573 total time= 2.6min
+[CV 7/10] END ................C=0.1, kernel=rbf;, score=0.547 total time= 2.6min
+[CV 8/10] END ................C=0.1, kernel=rbf;, score=0.547 total time= 2.7min
+[CV 1/10] END ............C=0.1, kernel=sigmoid;, score=0.500 total time= 1.7min
+[CV 9/10] END ................C=0.1, kernel=rbf;, score=0.538 total time= 2.7min
+[CV 10/10] END ...............C=0.1, kernel=rbf;, score=0.537 total time= 2.7min
+[CV 2/10] END ............C=0.1, kernel=sigmoid;, score=0.498 total time= 1.9min
+[CV 3/10] END ............C=0.1, kernel=sigmoid;, score=0.477 total time= 1.8min
+[CV 5/10] END ............C=0.1, kernel=sigmoid;, score=0.483 total time= 1.7min
+[CV 4/10] END ............C=0.1, kernel=sigmoid;, score=0.478 total time= 1.8min
+[CV 6/10] END ............C=0.1, kernel=sigmoid;, score=0.519 total time= 1.8min
+[CV 7/10] END ............C=0.1, kernel=sigmoid;, score=0.492 total time= 1.8min
+[CV 8/10] END ............C=0.1, kernel=sigmoid;, score=0.506 total time= 1.8min
+[CV 9/10] END ............C=0.1, kernel=sigmoid;, score=0.502 total time= 1.8min
+[CV 10/10] END ...........C=0.1, kernel=sigmoid;, score=0.493 total time= 1.7min
+[CV 8/10] END .............C=0.1, kernel=linear;, score=0.954 total time=22.1min
+[CV 9/10] END .............C=0.1, kernel=linear;, score=0.957 total time=22.8min
+[CV 10/10] END ............C=0.1, kernel=linear;, score=0.960 total time=23.3min
+[CV 1/10] END ............C=1.0, kernel=linear;, score=0.965 total time=160.0min
+[CV 4/10] END ............C=1.0, kernel=linear;, score=0.950 total time=161.8min
+[CV 3/10] END ............C=1.0, kernel=linear;, score=0.964 total time=170.9min
+[CV 6/10] END ............C=1.0, kernel=linear;, score=0.954 total time=160.1min
+[CV 2/10] END ............C=1.0, kernel=linear;, score=0.960 total time=171.6min
+[CV 5/10] END ............C=1.0, kernel=linear;, score=0.953 total time=162.6min
+[CV 1/10] END ................C=1.0, kernel=rbf;, score=0.659 total time= 1.6min
+[CV 2/10] END ................C=1.0, kernel=rbf;, score=0.643 total time= 1.6min
+[CV 3/10] END ................C=1.0, kernel=rbf;, score=0.628 total time= 1.8min
+[CV 4/10] END ................C=1.0, kernel=rbf;, score=0.600 total time= 1.8min
+[CV 5/10] END ................C=1.0, kernel=rbf;, score=0.640 total time= 1.8min
+[CV 6/10] END ................C=1.0, kernel=rbf;, score=0.675 total time= 1.8min
+[CV 7/10] END ................C=1.0, kernel=rbf;, score=0.653 total time= 1.8min
+[CV 8/10] END ................C=1.0, kernel=rbf;, score=0.637 total time= 1.8min
+[CV 9/10] END ................C=1.0, kernel=rbf;, score=0.624 total time= 2.0min
+[CV 1/10] END ............C=1.0, kernel=sigmoid;, score=0.500 total time= 1.2min
+[CV 10/10] END ...............C=1.0, kernel=rbf;, score=0.631 total time= 2.2min
+[CV 2/10] END ............C=1.0, kernel=sigmoid;, score=0.498 total time= 1.4min
+[CV 3/10] END ............C=1.0, kernel=sigmoid;, score=0.477 total time= 1.3min
+[CV 4/10] END ............C=1.0, kernel=sigmoid;, score=0.478 total time= 1.4min
+[CV 6/10] END ............C=1.0, kernel=sigmoid;, score=0.519 total time= 1.3min
+[CV 5/10] END ............C=1.0, kernel=sigmoid;, score=0.483 total time= 1.4min
+[CV 7/10] END ............C=1.0, kernel=sigmoid;, score=0.492 total time= 1.2min
+[CV 9/10] END ............C=1.0, kernel=sigmoid;, score=0.502 total time= 1.1min
+[CV 8/10] END ............C=1.0, kernel=sigmoid;, score=0.506 total time= 1.2min
+[CV 10/10] END ...........C=1.0, kernel=sigmoid;, score=0.493 total time= 1.2min
+[CV 7/10] END ............C=1.0, kernel=linear;, score=0.962 total time=175.0min
+[CV 8/10] END ............C=1.0, kernel=linear;, score=0.955 total time=236.9min
+[CV 9/10] END ............C=1.0, kernel=linear;, score=0.958 total time=241.8min
+[CV 10/10] END ...........C=1.0, kernel=linear;, score=0.961 total time=240.2min
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h3>Inferencing<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the best model parameters
+print(f&quot;Best score of {grid_result.best_score_} is achieved by using {grid_result.best_params_}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best score of 0.9582827048948805 is achieved by using {&#39;C&#39;: 1.0, &#39;kernel&#39;: &#39;linear&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Predict on test data using the model
+y_pred = grid_search.predict(X_test)
+y_score = grid_search.predict_proba(X_test)[:, 1]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h3>Evaluation<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the ROC AUC score
+print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Area under the ROC curve: 0.9514918050788321
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the new oversampled data, there is a marginal improvement in the performance of the logistic regression algorithm.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate parameters for roc auc curve
+fpr, tpr, thresholds = roc_curve(y_test, y_score)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the curve and area under the curve
+fig = px.area(
+    x=fpr, y=tpr,
+    title=f&#39;ROC Curve (AUC={auc(fpr, tpr):.4f})&#39;,
+    labels=dict(x=&#39;False Positive Rate&#39;, y=&#39;True Positive Rate&#39;)
+)
+fig.add_shape(
+    type=&#39;line&#39;, line=dict(dash=&#39;dash&#39;),
+    x0=0, x1=1, y0=0, y1=1
+)
+
+fig.update_yaxes(scaleanchor=&quot;x&quot;, scaleratio=1)
+fig.update_xaxes(constrain=&#39;domain&#39;)
+fig.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/support_vector_machine_40_0.svg" src="../../_images/support_vector_machine_40_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a ROC dataframe from the obtained FPR and TPR
+roc_df = pd.DataFrame({
+    &#39;fpr&#39;: fpr,
+    &#39;tpr&#39;: tpr,
+    &#39;threshold&#39;: thresholds
+})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the values of threshold for true positive rate between 0.79 and 0.81
+roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fpr</th>
+      <th>tpr</th>
+      <th>threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>180</th>
+      <td>0.045564</td>
+      <td>0.797637</td>
+      <td>0.706893</td>
+    </tr>
+    <tr>
+      <th>181</th>
+      <td>0.046523</td>
+      <td>0.797637</td>
+      <td>0.703944</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>0.046523</td>
+      <td>0.802068</td>
+      <td>0.700007</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>0.047002</td>
+      <td>0.802068</td>
+      <td>0.699629</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>0.047002</td>
+      <td>0.803053</td>
+      <td>0.699390</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>0.047482</td>
+      <td>0.803053</td>
+      <td>0.699164</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>0.047482</td>
+      <td>0.804530</td>
+      <td>0.698722</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>0.047962</td>
+      <td>0.804530</td>
+      <td>0.698178</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>0.047962</td>
+      <td>0.807484</td>
+      <td>0.695471</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>0.048441</td>
+      <td>0.807484</td>
+      <td>0.695072</td>
+    </tr>
+    <tr>
+      <th>190</th>
+      <td>0.048441</td>
+      <td>0.809453</td>
+      <td>0.693344</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>0.048921</td>
+      <td>0.809453</td>
+      <td>0.692507</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>For this data set also, it is safe to assume the threshold of 0.5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the confusion matrix
+ConfusionMatrixDisplay.from_estimator(grid_result, X_test, y_test)  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x12f00c5b0&gt;
+</pre></div>
+</div>
+<img alt="../../_images/support_vector_machine_44_1.png" src="../../_images/support_vector_machine_44_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
+joblib.dump(grid_result, &#39;./../../data/models/svm_oversample.pkl&#39;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;./../../data/models/svm_oversample_poly.pkl&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./docs/models"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="logistic_regression.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Logistic Regression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="neural_network.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Artificial Neural Network</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Pushkar Patil<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
