@@ -26,3 +26,26 @@ There are 61 columns present in the dataset, which are as follows:
 |:--|:--|
 |name|The name of the project|
 |blurb|A short description of the project|
+|goal|The funding goal of the project|
+|pledged|The amount of money that project was able to raised|
+|state|The state of the project. Whether the project was able to raise successfully or not|
+|slug|Unique identifier of the project|
+|disable_communication|Whether the communication is disabled or enabled|
+|country|Country of the owners of the project|
+|currency|Currecy of the country in which the owners are present|
+|currency_trailingcode|Whether the currency has the trailing code or not|
+|deadline|The date at which the project will stop raising|
+|state_changed_at|The date at which the state of the project was changed for the first time|
+|created_at|The date at which the project was created on the platform|
+|launched_at|The date at which the project was launched for raising the fund|
+|staff_pick|Whether the project was picked by staff or not|
+|backers_count|Number of backers of the project|
+|static_usd_rate|The currency exchange rate with respect to the US Dollar|
+|usd_pledged|The amount raised converted to US Dollar|
+|category|The category of the project|
+|spotlight|Whether the project could find the place in the spotlight section of the platform or not|
+|source_url|The source URL of the project|
+|name_len|The length of the project name|
+|name_len_clean|The lenght of the project name after cleaning|
+|blurb_len|The length of thr project blurb|
+|blurb_len_clean|The length of the project blurb after cleaning|
