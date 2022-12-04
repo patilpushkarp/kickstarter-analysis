@@ -20,5 +20,5 @@ chapters:
   - file: docs/models/comparison.md
 - file: extras.md
   sections:
-  - file: docs/team.md
   - file: references.md
+  - file: docs/team.md
