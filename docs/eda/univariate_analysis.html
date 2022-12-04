@@ -796,7 +796,7 @@ fig.show()
 <div class="cell_output docutils container">
 <img alt="../../_images/univariate_analysis_21_0.svg" src="../../_images/univariate_analysis_21_0.svg" /></div>
 </div>
-<p>There are very few observations that are present beyond 1M. Hence for the analysis observations with goal less than 1M will be considered. Also, it will be better to let go observations beyond 1M as such projects have different characteristics than those below 1M and hence require separate analysis.</p>
+<p>There are very few observations that are present beyond 1M. Hence for the analysis, observations with a funding goal of less than 1M will be considered. Also, it will be better to let go of observations beyond 1M as such projects have different characteristics than those below 1M and hence require separate analysis.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot distibution of &#39;goal&#39; variable from 0-1M.
@@ -869,7 +869,7 @@ fig.show()
 <div class="cell_output docutils container">
 <img alt="../../_images/univariate_analysis_33_0.svg" src="../../_images/univariate_analysis_33_0.svg" /></div>
 </div>
-<p>Mostly, the lengths of project names are below 12. According to the box plot, project names with lengths 15 to 16 are outliers. Since the numbers of observations are too low, they can be safely removed, since there will not be much loss of information.</p>
+<p>Mostly, the lengths of project names are below 12 words. According to the box plot, project names with word lengths 15 to 16 are outliers. Since the numbers of observations are too low, they can be safely removed, since there will not be much loss of information.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the distibution of &#39;blurb_len&#39; variable
@@ -953,8 +953,8 @@ df[relevant_categorical_variables].mode()
 <li><p>Communication is enabled for most of the projects. Thus donors can interact with the project creators and get their queries sorted.</p></li>
 <li><p>Majority of the projects come from the US and thus dominant currency is USD.</p></li>
 <li><p>Very few projects are picked up by the staff to promote.</p></li>
-<li><p>Web projects dominate the crowdfunding market.</p></li>
-<li><p>Less number of projects are highlighted in the spotlight of Kickstarter.</p></li>
+<li><p>Web projects dominate the kickstarter platform.</p></li>
+<li><p>Less number of projects are highlighted in the spotlight section of kickstarter.</p></li>
 </ol>
 </section>
 <section id="distribution">
