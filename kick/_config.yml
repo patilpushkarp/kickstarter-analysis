@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Kickstarter Analysis
-author: Pushkar Patil
+author: Group 4 - MBA DEM, IIMU
 exclude_patterns: [_build, .DS_Store, "**.ipynb_checkpoints"]
 only_build_toc_files: true
 
