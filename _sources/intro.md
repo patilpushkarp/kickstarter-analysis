@@ -1,4 +1,4 @@
-# Crowdfunding Analysis using Kickstarter
+# Crowdfunding Success Analysis using Kickstarter
 
 ## Introduction
 
