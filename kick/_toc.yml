@@ -17,6 +17,7 @@ chapters:
   - file: docs/models/logistic_regression.ipynb
   - file: docs/models/support_vector_machine.ipynb
   - file: docs/models/neural_network.ipynb
+  - file: docs/models/comparison.md
 - file: extras.md
   sections:
   - file: references.md
