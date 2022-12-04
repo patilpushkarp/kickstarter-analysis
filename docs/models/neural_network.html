@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Extras" href="../../extras.html" />
@@ -403,6 +405,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-algorithm">
+   About the algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-without-oversample-data">
    Model without oversample data
   </a>
@@ -466,6 +473,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-algorithm">
+   About the algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-without-oversample-data">
    Model without oversample data
   </a>
@@ -521,7 +533,10 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="artificial-neural-network">
 <h1>Artificial Neural Network<a class="headerlink" href="#artificial-neural-network" title="Permalink to this headline">#</a></h1>
-<p>The artificial neural network is an interconnected group of nodes inspired by biological neural networks that constitute the brain.</p>
+<section id="about-the-algorithm">
+<h2>About the algorithm<a class="headerlink" href="#about-the-algorithm" title="Permalink to this headline">#</a></h2>
+<p>The artificial neural network (ANN) lies in the domain of deep learning field in contrast to the previous two algorithms which lie in the domain of machine learning.</p>
+<p>An artificial neural network is an interconnected group of nodes inspired by biological neural networks that constitute the brain. These algorithms were developed in the 1980s but saw a rise in adoption due to recent technological advancements in processing and storage capabilities. The network is said to consist of neurons which are mathematical functions also known as activation functions. The neurons are connected by edges that have certain weights i.e. the information is passed from one activation function to another in certain proportions. These weights change the basis on the training data and the corresponding errors. Thus, ANNs are said to be capable of changing their internal structure to find the relationship between dependent and independent variables.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Import necessary packages
@@ -532,7 +547,7 @@ import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import roc_auc_score, roc_curve, auc
+from sklearn.metrics import roc_auc_score, roc_curve, auc, classification_report
 from sklearn.metrics import ConfusionMatrixDisplay
 import plotly.express as px
 import plotly.io as pio
@@ -544,8 +559,11 @@ pio.renderers.default = &quot;svg&quot;
 </div>
 </div>
 </div>
+<p>The procedure to train an ANN is similar to that of the precious algorithms.</p>
+</section>
 <section id="model-without-oversample-data">
 <h2>Model without oversample data<a class="headerlink" href="#model-without-oversample-data" title="Permalink to this headline">#</a></h2>
+<p>Considering data without oversampling,</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
@@ -562,7 +580,7 @@ df.drop([&#39;Unnamed: 0&#39;], axis=1, inplace=True)
 </div>
 </div>
 </div>
-<p>Before modelinng the data, it is necessary to split the data into training and testing set.</p>
+<p>Before modeling the data, the data is split into training and testing set.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Split the data into train and test sets
@@ -573,7 +591,34 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axi
 </div>
 <section id="model-building">
 <h3>Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>There are hyperparamters which needs tuning in the ANN also. The following hyperparamters will be used for performing the grid search:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Paramter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>hiden_layer_sizes</p></td>
+<td><p>Number of neuron each hidden layers which are comma-separated</p></td>
+<td><p><span class="math notranslate nohighlight">\((100,), (64, 128, ), (128, 64, )\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>activation</p></td>
+<td><p>Activation to be used</p></td>
+<td><p>1. ‘logistic’ for logistic activation <br> 2. ‘tanh’ for hyperbolic tangent activation <br> 3. ‘relu’ for rectified linear unit function</p></td>
+</tr>
+<tr class="row-even"><td><p>alpha</p></td>
+<td><p>Paramter which determines the speed of training</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.0001, 0.001, 0.01, 0.1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>max_iter</p></td>
+<td><p>Maximum number of iterations</p></td>
+<td><p><span class="math notranslate nohighlight">\(200, 300, 400\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the logistic regression model
 ann_clf = MLPClassifier(solver=&#39;adam&#39;, learning_rate=&#39;adaptive&#39;, early_stopping=True)
@@ -590,7 +635,7 @@ ann_params = dict(
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the gridsearch object
 grid_search = GridSearchCV(ann_clf, ann_params, scoring=&#39;roc_auc&#39;, n_jobs=7, refit=True, cv=10, verbose=5)
@@ -1689,7 +1734,8 @@ grid_result = grid_search.fit(X_train.values, y_train.values)
 </section>
 <section id="inferencing">
 <h3>Inferencing<a class="headerlink" href="#inferencing" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>The score and parameters for the best trained model are:</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the best model parameters
 print(f&quot;Best score of {grid_search.best_score_} is achieved by using {grid_result.best_params_}&quot;)
@@ -1702,7 +1748,7 @@ print(f&quot;Best score of {grid_search.best_score_} is achieved by using {grid_
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Predict on test data using the model
 y_pred = grid_search.predict(X_test.values)
@@ -1714,7 +1760,8 @@ y_score = grid_search.predict_proba(X_test.values)[:, 1]
 </section>
 <section id="evaluation">
 <h3>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>AUC ROC with the best performing model</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the ROC AUC score
 print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
@@ -1727,7 +1774,9 @@ print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<p>The AUC ROC of ANN is comparable to the SVM and is much better than the logistic regression alogrithm. But the amount of time required to train ANN is much smaller than the SVM algorithm and marginal greater than the logistic regression.</p>
+<p>Usual procedure will be followed for finding the optimum threshold of classification.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate parameters for roc auc curve
 fpr, tpr, thresholds = roc_curve(y_test, y_score)
@@ -1735,7 +1784,7 @@ fpr, tpr, thresholds = roc_curve(y_test, y_score)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the curve and area under the curve
 fig = px.area(
@@ -1755,10 +1804,9 @@ fig.show()
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/neural_network_17_0.svg" src="../../_images/neural_network_17_0.svg" /></div>
+<img alt="../../_images/neural_network_25_0.svg" src="../../_images/neural_network_25_0.svg" /></div>
 </div>
-<p>An AUC score of 0.88 is quite remarkable and it suggest that model is quite good in predicting whether a project on Kickstarter will be succecssful or not.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a ROC dataframe from the obtained FPR and TPR
 roc_df = pd.DataFrame({
@@ -1770,7 +1818,7 @@ roc_df = pd.DataFrame({
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the values of threshold for true positive rate between 0.79 and 0.81
 roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
@@ -1902,27 +1950,8 @@ roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
 </table>
 </div></div></div>
 </div>
-<p>From the above table, it is safe to assume the threshold value of 0.5 for classifying the observations.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the confusion matrix
-ConfusionMatrixDisplay.from_estimator(grid_result, X_test, y_test)  
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/sklearn/base.py:443: UserWarning:
-
-X has feature names, but MLPClassifier was fitted without feature names
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x1567370a0&gt;
-</pre></div>
-</div>
-<img alt="../../_images/neural_network_22_2.png" src="../../_images/neural_network_22_2.png" />
-</div>
-</div>
-<div class="cell docutils container">
+<p>The threshold for the optimum value of TPR is close to 0.64. Hence, the threshold that cen be used for classification will be 0.64. The final value can be decided after checking over the oversampled data.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
 joblib.dump(grid_result, &#39;./../../data/models/ann.pkl&#39;)
@@ -1939,7 +1968,8 @@ joblib.dump(grid_result, &#39;./../../data/models/ann.pkl&#39;)
 </section>
 <section id="model-with-oversample-data">
 <h2>Model with oversample data<a class="headerlink" href="#model-with-oversample-data" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
+<p>Checking the model with the oversamples data.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
 df = pd.read_csv(&#39;./../../data/engineered_data_oversampled.csv&#39;)
@@ -1947,7 +1977,7 @@ df = pd.read_csv(&#39;./../../data/engineered_data_oversampled.csv&#39;)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Drop the index column
 df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
@@ -1955,7 +1985,7 @@ df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Split the data into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axis=1), df[&#39;state&#39;], test_size=0.2, random_state=42)
@@ -1965,7 +1995,8 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axi
 </div>
 <section id="id1">
 <h3>Model Building<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>The parameters for training on the oversampled data is same as above.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the logistic regression model
 ann_clf = MLPClassifier(solver=&#39;adam&#39;, learning_rate=&#39;adaptive&#39;, early_stopping=True)
@@ -1981,7 +2012,7 @@ ann_params = dict(
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the gridsearch object
 grid_search = GridSearchCV(ann_clf, ann_params, scoring=&#39;roc_auc&#39;, n_jobs=7, refit=True, cv=10, verbose=5)
@@ -3080,7 +3111,8 @@ grid_result = grid_search.fit(X_train.values, y_train.values)
 </section>
 <section id="id2">
 <h3>Inferencing<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>Thus, the best model is represented by:</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the best model parameters
 print(f&quot;Best score of {grid_result.best_score_} is achieved by using {grid_result.best_params_}&quot;)
@@ -3093,7 +3125,7 @@ print(f&quot;Best score of {grid_result.best_score_} is achieved by using {grid_
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Predict on test data using the model
 y_pred = grid_search.predict(X_test)
@@ -3116,7 +3148,8 @@ X has feature names, but MLPClassifier was fitted without feature names
 </section>
 <section id="id3">
 <h3>Evaluation<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>The AUC ROC is given by:</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the ROC AUC score
 print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
@@ -3129,8 +3162,9 @@ print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
 </div>
 </div>
 </div>
-<p>With the new oversampled data, there is a marginal improvement in the performance of the logistic regression algorithm.</p>
-<div class="cell docutils container">
+<p>The AUC ROC of ANN with oversampled data is too high. It out-performed all the previous models.</p>
+<p>The threshold values can be found with same previous procedures.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate parameters for roc auc curve
 fpr, tpr, thresholds = roc_curve(y_test, y_score)
@@ -3138,7 +3172,7 @@ fpr, tpr, thresholds = roc_curve(y_test, y_score)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the curve and area under the curve
 fig = px.area(
@@ -3158,9 +3192,9 @@ fig.show()
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/neural_network_38_0.svg" src="../../_images/neural_network_38_0.svg" /></div>
+<img alt="../../_images/neural_network_49_0.svg" src="../../_images/neural_network_49_0.svg" /></div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a ROC dataframe from the obtained FPR and TPR
 roc_df = pd.DataFrame({
@@ -3175,7 +3209,7 @@ roc_df = pd.DataFrame({
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the values of threshold for true positive rate between 0.79 and 0.81
-roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
+roc_df[roc_df[&#39;tpr&#39;].between(0.94, 0.95)]
 </pre></div>
 </div>
 </div>
@@ -3205,102 +3239,160 @@ roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
   </thead>
   <tbody>
     <tr>
-      <th>152</th>
-      <td>0.038849</td>
-      <td>0.792713</td>
-      <td>0.805119</td>
+      <th>342</th>
+      <td>0.124221</td>
+      <td>0.942393</td>
+      <td>0.382804</td>
     </tr>
     <tr>
-      <th>153</th>
-      <td>0.039329</td>
-      <td>0.792713</td>
-      <td>0.804529</td>
+      <th>343</th>
+      <td>0.124700</td>
+      <td>0.942393</td>
+      <td>0.382094</td>
     </tr>
     <tr>
-      <th>154</th>
-      <td>0.039329</td>
-      <td>0.799114</td>
-      <td>0.798925</td>
+      <th>344</th>
+      <td>0.124700</td>
+      <td>0.943378</td>
+      <td>0.378682</td>
     </tr>
     <tr>
-      <th>155</th>
-      <td>0.039808</td>
-      <td>0.799114</td>
-      <td>0.798722</td>
+      <th>345</th>
+      <td>0.125659</td>
+      <td>0.943378</td>
+      <td>0.376982</td>
     </tr>
     <tr>
-      <th>156</th>
-      <td>0.039808</td>
-      <td>0.801083</td>
-      <td>0.795776</td>
+      <th>346</th>
+      <td>0.125659</td>
+      <td>0.944855</td>
+      <td>0.374228</td>
     </tr>
     <tr>
-      <th>157</th>
-      <td>0.040288</td>
-      <td>0.801083</td>
-      <td>0.795657</td>
+      <th>347</th>
+      <td>0.126619</td>
+      <td>0.944855</td>
+      <td>0.373161</td>
     </tr>
     <tr>
-      <th>158</th>
-      <td>0.040288</td>
-      <td>0.804037</td>
-      <td>0.793519</td>
+      <th>348</th>
+      <td>0.126619</td>
+      <td>0.945347</td>
+      <td>0.372686</td>
     </tr>
     <tr>
-      <th>159</th>
-      <td>0.040767</td>
-      <td>0.804037</td>
-      <td>0.792045</td>
+      <th>349</th>
+      <td>0.127098</td>
+      <td>0.945347</td>
+      <td>0.372475</td>
     </tr>
     <tr>
-      <th>160</th>
-      <td>0.040767</td>
-      <td>0.806499</td>
-      <td>0.790773</td>
+      <th>350</th>
+      <td>0.127098</td>
+      <td>0.945839</td>
+      <td>0.371995</td>
     </tr>
     <tr>
-      <th>161</th>
-      <td>0.041727</td>
-      <td>0.806499</td>
-      <td>0.785370</td>
+      <th>351</th>
+      <td>0.130456</td>
+      <td>0.945839</td>
+      <td>0.365349</td>
     </tr>
     <tr>
-      <th>162</th>
-      <td>0.041727</td>
-      <td>0.806992</td>
-      <td>0.783214</td>
+      <th>352</th>
+      <td>0.130456</td>
+      <td>0.946824</td>
+      <td>0.363791</td>
     </tr>
     <tr>
-      <th>163</th>
-      <td>0.042206</td>
-      <td>0.806992</td>
-      <td>0.781616</td>
+      <th>353</th>
+      <td>0.131415</td>
+      <td>0.946824</td>
+      <td>0.360800</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>0.131415</td>
+      <td>0.947317</td>
+      <td>0.360164</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>0.131894</td>
+      <td>0.947317</td>
+      <td>0.359702</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>0.131894</td>
+      <td>0.947809</td>
+      <td>0.356896</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>0.132374</td>
+      <td>0.947809</td>
+      <td>0.355664</td>
+    </tr>
+    <tr>
+      <th>358</th>
+      <td>0.132374</td>
+      <td>0.948794</td>
+      <td>0.350285</td>
+    </tr>
+    <tr>
+      <th>359</th>
+      <td>0.137650</td>
+      <td>0.948794</td>
+      <td>0.339132</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>0.137650</td>
+      <td>0.949778</td>
+      <td>0.336757</td>
+    </tr>
+    <tr>
+      <th>361</th>
+      <td>0.139089</td>
+      <td>0.949778</td>
+      <td>0.333595</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>For this data set also, it is safe to assume the threshold of 0.5.</p>
+<p>For this model, the threshold value can be set to 0.38.</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute the new classes based on the latest threshold
+y_class = [1 if ys&gt;0.38 else 0 for ys in y_score]
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the confusion matrix
-ConfusionMatrixDisplay.from_estimator(grid_result, X_test, y_test)  
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot classification report
+print(classification_report(y_test, y_class))
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/pushkar/miniforge3/envs/project/lib/python3.8/site-packages/sklearn/base.py:443: UserWarning:
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-X has feature names, but MLPClassifier was fitted without feature names
+         0.0       0.94      0.88      0.91      2085
+         1.0       0.88      0.94      0.91      2031
+
+    accuracy                           0.91      4116
+   macro avg       0.91      0.91      0.91      4116
+weighted avg       0.91      0.91      0.91      4116
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x156187bb0&gt;
-</pre></div>
-</div>
-<img alt="../../_images/neural_network_42_2.png" src="../../_images/neural_network_42_2.png" />
 </div>
 </div>
-<div class="cell docutils container">
+<p>The F1 score of 0.91 is remarkably high and is the best amongst all the models. Hence, it can be concluded that ANN is the best predictor for this data.</p>
+<div class="cell tag_hide-input tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
 joblib.dump(grid_result, &#39;./../../data/models/ann_oversample.pkl&#39;)

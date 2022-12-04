@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Artificial Neural Network" href="neural_network.html" />
@@ -403,6 +405,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-algorithm">
+   About the algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-without-oversample-data">
    Model without oversample data
   </a>
@@ -430,21 +437,26 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
+    <a class="reference internal nav-link" href="#id2">
      Model Building
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      Inferencing
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id4">
      Evaluation
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#principal-componanent-analysis">
+   Principal Componanent Analysis
+  </a>
  </li>
 </ul>
 
@@ -466,6 +478,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-algorithm">
+   About the algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-without-oversample-data">
    Model without oversample data
   </a>
@@ -493,21 +510,26 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
+    <a class="reference internal nav-link" href="#id2">
      Model Building
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      Inferencing
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id4">
      Evaluation
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#principal-componanent-analysis">
+   Principal Componanent Analysis
+  </a>
  </li>
 </ul>
 
@@ -521,7 +543,9 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="support-vector-machine">
 <h1>Support Vector Machine<a class="headerlink" href="#support-vector-machine" title="Permalink to this headline">#</a></h1>
-<p>Support vector machine or SVM is another one of the most widely used algorithm for classification.</p>
+<section id="about-the-algorithm">
+<h2>About the algorithm<a class="headerlink" href="#about-the-algorithm" title="Permalink to this headline">#</a></h2>
+<p>Support vector machine or SVM is another one of the most widely used algorithms for classification. It is one of the most high-performing algorithms with a little amount of tuning. It uses a Maximal-Margin classifier under the hood which constructs a hyperplane to split the space of the independent variables into the target variable classes. The distance between the hyperplane and the closest data points is referred to as the margin. The hyperplane is considered to be best when this distance is the largest. The closest points known as support vectors are considered relevant for defining the classifiers. The job of the optimization algorithm is to maximize the margin between the hyperplane and support vectors <span id="id1">[<a class="reference internal" href="../../references.html#id7" title="Jason Brownlee. Support vector machines for machine learning. Aug 2020. URL: https://machinelearningmastery.com/support-vector-machines-for-machine-learning/.">Bro20b</a>]</span>.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Import necessary packages
@@ -529,9 +553,11 @@ import pandas as pd
 import numpy as np
 import joblib
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import roc_auc_score, roc_curve, auc
+from sklearn.metrics import roc_auc_score, roc_curve, auc, classification_report
 from sklearn.metrics import ConfusionMatrixDisplay
 import plotly.express as px
 import plotly.io as pio
@@ -543,6 +569,8 @@ pio.renderers.default = &quot;svg&quot;
 </div>
 </div>
 </div>
+<p>The same procedure as that followed for the logistic regression will be followed for the support vector machine.</p>
+</section>
 <section id="model-without-oversample-data">
 <h2>Model without oversample data<a class="headerlink" href="#model-without-oversample-data" title="Permalink to this headline">#</a></h2>
 <div class="cell tag_hide-cell docutils container">
@@ -561,8 +589,8 @@ df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
 </div>
 </div>
 </div>
-<p>Before modelinng the data, it is necessary to split the data into training and testing set.</p>
-<div class="cell docutils container">
+<p>Before modeling the data, split the data into training and testing set such that the training set contains 80% of the total records while the remaining records are placed in the testing set.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Split the data into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axis=1), df[&#39;state&#39;], test_size=0.2, random_state=42)
@@ -572,7 +600,26 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axi
 </div>
 <section id="model-building">
 <h3>Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>For training SVM, the grid search will be performed on two sets to reduce the number of iterations. For the first search, following paramters will be used:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>Cost of SVM for determining the margin</p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-4}:1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>kernel</p></td>
+<td><p>Type of kernel to be used</p></td>
+<td><p>1. ‘linear’ for linear kernel <br>2. ‘rbf’ for radial basis function <br> 3. ‘sigmoid’ for logistic kernel</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the SVM model without &#39;poly&#39; kernel
 svm_clf = SVC(probability=True, class_weight=&#39;balanced&#39;)
@@ -586,7 +633,7 @@ svm_params = dict(
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># For training SVM without &#39;poly&#39; kernel
 
@@ -754,7 +801,26 @@ grid_result = grid_search.fit(X_train, y_train)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<p>The other set of parameters will be used to tune SVM with polynomial kernel, which are as follows:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>Cost of SVM for determining the margin</p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-4}:1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>degree</p></td>
+<td><p>Degree of polynomial</p></td>
+<td><p><span class="math notranslate nohighlight">\(2,3,4\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the SVM model with &#39;poly&#39; kernel
 svm_clf_poly = SVC(probability=True, class_weight=&#39;balanced&#39;, kernel=&#39;poly&#39;)
@@ -768,7 +834,7 @@ svm_params_poly = dict(
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># For training SVM without &#39;poly&#39; kernel
 
@@ -939,6 +1005,7 @@ grid_result_poly = grid_search_poly.fit(X_train, y_train)
 </section>
 <section id="inferencing">
 <h3>Inferencing<a class="headerlink" href="#inferencing" title="Permalink to this headline">#</a></h3>
+<p>The best models thus obtained have score and parameters:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the best model parameters
@@ -954,6 +1021,7 @@ Best score of 0.8522176297737245 is achieved by using {&#39;C&#39;: 1.0, &#39;de
 </div>
 </div>
 </div>
+<p>Since the model with a linear kernel has a better score than the one with a polynomial kernel, the former model will be used for prediction and then subsequently for evaluation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Predict on test data using the model
@@ -966,7 +1034,8 @@ y_score = grid_search.predict_proba(X_test)[:, 1]
 </section>
 <section id="evaluation">
 <h3>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<p>For the initial evaluation, AUC ROC is obtained which is:</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the ROC AUC score
 print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
@@ -979,7 +1048,8 @@ print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<p>To get the thesholds and the corresponding TPR and FPR:</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate parameters for roc auc curve
 fpr, tpr, thresholds = roc_curve(y_test, y_score)
@@ -987,7 +1057,7 @@ fpr, tpr, thresholds = roc_curve(y_test, y_score)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the curve and area under the curve
 fig = px.area(
@@ -1007,9 +1077,9 @@ fig.show()
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/support_vector_machine_19_0.svg" src="../../_images/support_vector_machine_19_0.svg" /></div>
+<img alt="../../_images/support_vector_machine_27_0.svg" src="../../_images/support_vector_machine_27_0.svg" /></div>
 </div>
-<p>An AUC score of 0.88 is quite remarkable and it suggest that model is quite good in predicting whether a project on Kickstarter will be succecssful or not.</p>
+<p>An AUC score of 0.88 is quite remarkable and it suggests that the model is quite good at predicting whether a project on Kickstarter will be successful or not. This model performed better than the logistic regression models.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a ROC dataframe from the obtained FPR and TPR
@@ -1113,21 +1183,7 @@ roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
 </div></div></div>
 </div>
 <p>From the above table, it is safe to assume the threshold value of 0.5 for classifying the observations.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the confusion matrix
-ConfusionMatrixDisplay.from_estimator(grid_result, X_test, y_test)  
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x12c7b8610&gt;
-</pre></div>
-</div>
-<img alt="../../_images/support_vector_machine_24_1.png" src="../../_images/support_vector_machine_24_1.png" />
-</div>
-</div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
 joblib.dump(grid_result, &#39;./../../data/models/svm.pkl&#39;)
@@ -1145,7 +1201,8 @@ joblib.dump(grid_result_poly, &#39;./../../data/models/svm_poly.pkl&#39;)
 </section>
 <section id="model-with-oversample-data">
 <h2>Model with oversample data<a class="headerlink" href="#model-with-oversample-data" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
+<p>Continuing with the oversampled data.</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the data
 df = pd.read_csv(&#39;./../../data/engineered_data_oversampled.csv&#39;)
@@ -1153,7 +1210,7 @@ df = pd.read_csv(&#39;./../../data/engineered_data_oversampled.csv&#39;)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Drop the index column
 df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
@@ -1161,7 +1218,7 @@ df.drop(&#39;Unnamed: 0&#39;, axis=1, inplace=True)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Split the data into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axis=1), df[&#39;state&#39;], test_size=0.2, random_state=42)
@@ -1169,9 +1226,28 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;state&#39;, axi
 </div>
 </div>
 </div>
-<section id="id1">
-<h3>Model Building<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<section id="id2">
+<h3>Model Building<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<p>For this data also, only one set of parameters will be used for tuning. The parameters that will be used are:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>Cost of SVM for determining the margin</p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-3}:1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>kernel</p></td>
+<td><p>Type of kernel to be used</p></td>
+<td><p>1. ‘linear’ for linear kernel <br>2. ‘rbf’ for radial basis function <br> 3. ‘sigmoid’ for logistic kernel</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the SVM model
 svm_clf = SVC(probability=True, class_weight=&#39;balanced&#39;)
@@ -1185,7 +1261,7 @@ svm_params = dict(
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare the gridsearch object
 grid_search = GridSearchCV(svm_clf, svm_params, scoring=&#39;roc_auc&#39;, n_jobs=7, refit=True, cv=10, verbose=5)
@@ -1322,8 +1398,9 @@ grid_result = grid_search.fit(X_train, y_train)
 </div>
 </div>
 </section>
-<section id="id2">
-<h3>Inferencing<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<section id="id3">
+<h3>Inferencing<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<p>The best model on oversampled is given by:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the best model parameters
@@ -1347,9 +1424,10 @@ y_score = grid_search.predict_proba(X_test)[:, 1]
 </div>
 </div>
 </section>
-<section id="id3">
-<h3>Evaluation<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
+<section id="id4">
+<h3>Evaluation<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<p>The AUC ROC score for the model is:</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the ROC AUC score
 print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
@@ -1362,8 +1440,9 @@ print(f&quot;Area under the ROC curve: {roc_auc_score(y_test, y_score)}&quot;)
 </div>
 </div>
 </div>
-<p>With the new oversampled data, there is a marginal improvement in the performance of the logistic regression algorithm.</p>
-<div class="cell docutils container">
+<p>With the new oversampled data, there is a marginal improvement in the performance of the support vector machine algorithm.</p>
+<p>Thus, to find the threshold for the optimum evaluation metric, thresholds with their corresponding TPR and FPR needs to be determined and can be found by:</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate parameters for roc auc curve
 fpr, tpr, thresholds = roc_curve(y_test, y_score)
@@ -1371,7 +1450,7 @@ fpr, tpr, thresholds = roc_curve(y_test, y_score)
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the curve and area under the curve
 fig = px.area(
@@ -1391,9 +1470,9 @@ fig.show()
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/support_vector_machine_40_0.svg" src="../../_images/support_vector_machine_40_0.svg" /></div>
+<img alt="../../_images/support_vector_machine_52_0.svg" src="../../_images/support_vector_machine_52_0.svg" /></div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a ROC dataframe from the obtained FPR and TPR
 roc_df = pd.DataFrame({
@@ -1405,10 +1484,10 @@ roc_df = pd.DataFrame({
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get the values of threshold for true positive rate between 0.79 and 0.81
-roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
+roc_df[roc_df[&#39;tpr&#39;].between(0.89, 0.90)]
 </pre></div>
 </div>
 </div>
@@ -1438,96 +1517,163 @@ roc_df[roc_df[&#39;tpr&#39;].between(0.79, 0.81)]
   </thead>
   <tbody>
     <tr>
-      <th>180</th>
-      <td>0.045564</td>
-      <td>0.797637</td>
-      <td>0.706893</td>
+      <th>343</th>
+      <td>0.122782</td>
+      <td>0.891679</td>
+      <td>0.500000</td>
     </tr>
     <tr>
-      <th>181</th>
-      <td>0.046523</td>
-      <td>0.797637</td>
-      <td>0.703944</td>
+      <th>344</th>
+      <td>0.123261</td>
+      <td>0.891679</td>
+      <td>0.494277</td>
     </tr>
     <tr>
-      <th>182</th>
-      <td>0.046523</td>
-      <td>0.802068</td>
-      <td>0.700007</td>
+      <th>345</th>
+      <td>0.123261</td>
+      <td>0.892664</td>
+      <td>0.491941</td>
     </tr>
     <tr>
-      <th>183</th>
-      <td>0.047002</td>
-      <td>0.802068</td>
-      <td>0.699629</td>
+      <th>346</th>
+      <td>0.124221</td>
+      <td>0.892664</td>
+      <td>0.490585</td>
     </tr>
     <tr>
-      <th>184</th>
-      <td>0.047002</td>
-      <td>0.803053</td>
-      <td>0.699390</td>
+      <th>347</th>
+      <td>0.124221</td>
+      <td>0.893156</td>
+      <td>0.489900</td>
     </tr>
     <tr>
-      <th>185</th>
-      <td>0.047482</td>
-      <td>0.803053</td>
-      <td>0.699164</td>
+      <th>348</th>
+      <td>0.125659</td>
+      <td>0.893156</td>
+      <td>0.488325</td>
     </tr>
     <tr>
-      <th>186</th>
-      <td>0.047482</td>
-      <td>0.804530</td>
-      <td>0.698722</td>
+      <th>349</th>
+      <td>0.125659</td>
+      <td>0.893648</td>
+      <td>0.486883</td>
     </tr>
     <tr>
-      <th>187</th>
-      <td>0.047962</td>
-      <td>0.804530</td>
-      <td>0.698178</td>
+      <th>350</th>
+      <td>0.126139</td>
+      <td>0.893648</td>
+      <td>0.486531</td>
     </tr>
     <tr>
-      <th>188</th>
-      <td>0.047962</td>
-      <td>0.807484</td>
-      <td>0.695471</td>
+      <th>351</th>
+      <td>0.126139</td>
+      <td>0.894141</td>
+      <td>0.485656</td>
     </tr>
     <tr>
-      <th>189</th>
-      <td>0.048441</td>
-      <td>0.807484</td>
-      <td>0.695072</td>
+      <th>352</th>
+      <td>0.127578</td>
+      <td>0.894141</td>
+      <td>0.485366</td>
     </tr>
     <tr>
-      <th>190</th>
-      <td>0.048441</td>
-      <td>0.809453</td>
-      <td>0.693344</td>
+      <th>353</th>
+      <td>0.127578</td>
+      <td>0.895126</td>
+      <td>0.484574</td>
     </tr>
     <tr>
-      <th>191</th>
-      <td>0.048921</td>
-      <td>0.809453</td>
-      <td>0.692507</td>
+      <th>354</th>
+      <td>0.129496</td>
+      <td>0.895126</td>
+      <td>0.479773</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>0.129496</td>
+      <td>0.895618</td>
+      <td>0.479133</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>0.129976</td>
+      <td>0.895618</td>
+      <td>0.478438</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>0.129976</td>
+      <td>0.896110</td>
+      <td>0.477416</td>
+    </tr>
+    <tr>
+      <th>358</th>
+      <td>0.130935</td>
+      <td>0.896110</td>
+      <td>0.476623</td>
+    </tr>
+    <tr>
+      <th>359</th>
+      <td>0.130935</td>
+      <td>0.896603</td>
+      <td>0.475434</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>0.131415</td>
+      <td>0.896603</td>
+      <td>0.474092</td>
+    </tr>
+    <tr>
+      <th>361</th>
+      <td>0.131415</td>
+      <td>0.897587</td>
+      <td>0.472469</td>
+    </tr>
+    <tr>
+      <th>362</th>
+      <td>0.131894</td>
+      <td>0.897587</td>
+      <td>0.471175</td>
+    </tr>
+    <tr>
+      <th>363</th>
+      <td>0.131894</td>
+      <td>0.899065</td>
+      <td>0.468694</td>
+    </tr>
+    <tr>
+      <th>364</th>
+      <td>0.132374</td>
+      <td>0.899065</td>
+      <td>0.468370</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>For this data set also, it is safe to assume the threshold of 0.5.</p>
+<p>Since the threshold for the optimum TPR is near 0.5. The threshold that will be used is 0.5 i.e. the default will be used.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the confusion matrix
-ConfusionMatrixDisplay.from_estimator(grid_result, X_test, y_test)  
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot classification report
+print(classification_report(y_test, y_pred))
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x12f00c5b0&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+         0.0       0.90      0.87      0.88      2085
+         1.0       0.87      0.90      0.88      2031
+
+    accuracy                           0.88      4116
+   macro avg       0.88      0.88      0.88      4116
+weighted avg       0.88      0.88      0.88      4116
 </pre></div>
 </div>
-<img alt="../../_images/support_vector_machine_44_1.png" src="../../_images/support_vector_machine_44_1.png" />
 </div>
 </div>
+<p>The F1-score thus obtained is better than that of logistic regression and hence it can be concluded that SVM with linear kernel is btter in predicting the success of the Kickstarter Campaign.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
@@ -1542,6 +1688,192 @@ joblib.dump(grid_result, &#39;./../../data/models/svm_oversample.pkl&#39;)
 </div>
 </div>
 </section>
+</section>
+<section id="principal-componanent-analysis">
+<h2>Principal Componanent Analysis<a class="headerlink" href="#principal-componanent-analysis" title="Permalink to this headline">#</a></h2>
+<p>The time required to train the SVM algorithms is huge. The training time is the function of the number of observations and the number of columns. It is possible to reduce the number of features without losing much information. This can be achieved by using Principal Component Analysis (PCA).</p>
+<p>To reduce the number of features using PCA, it is necessary to standardize the features.</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Standardize the data
+
+# Declare the scaling object
+standard_scaler = StandardScaler()
+
+# Fit the scaling object
+standard_scaler.fit(X_train)
+
+# Transform the data using the scaled object
+scaled_train = standard_scaler.transform(X_train)
+scaled_test = standard_scaler.transform(X_test)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To find the optimum number of features to be retained, it is necessary to examine the information loss that can be tolerated. The information loss can be evaluated on the basis of varince. The maximum the variance, the lesser the information loss. To find the optimum number, PCA should on run on complete data.</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Declare PCA object to check the optimum number of components
+experiment_pca = PCA(n_components=None)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use the PCA to fit the data
+experiment_pca.fit(scaled_train)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {color: black;background-color: white;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>PCA()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">PCA</label><div class="sk-toggleable__content"><pre>PCA()</pre></div></div></div></div></div></div></div>
+</div>
+<p>The PCA gives us the ratios of variances for the different numbers of components which signifies the percentage of information retained by that number of components.</p>
+<p>Scree plot can be of great help for deciding on the number of components</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store the results
+experiment_pca_eigen_values = pd.DataFrame(experiment_pca.explained_variance_ratio_*100).reset_index()
+experiment_pca_eigen_values.columns = [&quot;Eigen Value Size&quot;, &quot;Eigen Value Number&quot;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the scree plot
+fig = px.line(experiment_pca_eigen_values, x=&#39;Eigen Value Size&#39;, y=&quot;Eigen Value Number&quot;, markers=True, title=&quot;Scree Plot for PCA&quot;)
+fig.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/support_vector_machine_68_0.svg" src="../../_images/support_vector_machine_68_0.svg" /></div>
+</div>
+<p>There exist an elbow at 5 components in the scree plot but the variance explained by those many components may not be sufficient. Further evaluation is necessary for the variance explained.</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the cumulative variances across the components
+exp_var = experiment_pca.explained_variance_ratio_ * 100
+cum_exp_var = np.cumsum(exp_var)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store the cumulative results
+exp_var_df = pd.DataFrame([exp_var, cum_exp_var]).T.reset_index()
+exp_var_df.columns = [&quot;Components&quot;, &quot;Explained Variance&quot;, &quot;Cumulative Explained Variance&quot;]
+exp_var_df.head(10)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Components</th>
+      <th>Explained Variance</th>
+      <th>Cumulative Explained Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>12.880015</td>
+      <td>12.880015</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>7.050662</td>
+      <td>19.930677</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>5.953163</td>
+      <td>25.883840</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>5.616665</td>
+      <td>31.500505</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>4.847132</td>
+      <td>36.347637</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>3.378421</td>
+      <td>39.726058</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>3.326492</td>
+      <td>43.052549</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>3.176691</td>
+      <td>46.229240</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>3.124685</td>
+      <td>49.353925</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>3.060913</td>
+      <td>52.414839</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the cumulative variance
+fig1 = px.bar(exp_var_df, x=&#39;Components&#39;, y=&#39;Explained Variance&#39;)
+fig2 = px.line(exp_var_df, x=&#39;Components&#39;, y=&#39;Cumulative Explained Variance&#39;, text=&#39;Cumulative Explained Variance&#39;)
+fig2.update_traces(mode=&quot;lines&quot;, line_shape=&quot;vh&quot;, line_color=&quot;red&quot;)
+fig1.add_trace(fig2.data[0])
+fig1.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/support_vector_machine_72_0.svg" src="../../_images/support_vector_machine_72_0.svg" /></div>
+</div>
+<p>Though an elbow exists at 5 components, those many components are too less to explain the variance in the data. In other words, 5 components will be able to retain a sufficient amount of information for building a model. More than 20 components are required to explain more than 85% of the variance. Hence, it will not be wise to use PCA to reduce the number of dimensions.</p>
 </section>
 </section>
 
